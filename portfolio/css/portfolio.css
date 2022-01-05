@@ -1,0 +1,35 @@
+.portfolio-btns { 
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    margin-bottom: 60px;
+}
+.portfolio-btn { 
+    width: 220px;
+    height: 55px;
+    border: 2px solid var(--color-gold);
+    background-color: transparent;
+    border-radius: 0px;
+    color: var(--color-gold);
+    font-family: 'Inter', sans-serif;
+    line-height: 40px;
+    text-align: center;
+    cursor: pointer;
+}
+.portfolio-btn:hover {
+    color: var(--color-white);
+}
+.active {
+    background-color: var(--color-gold);
+    color: var(--color-dark);
+}
+.portfolio-items { 
+    display: flex;
+    flex-wrap: wrap;
+    gap: 25px;
+    cursor: pointer;
+}
+.portfolio-item { 
+    width: 450px;
+    height: 560px;
+}
