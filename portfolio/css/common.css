@@ -24,13 +24,42 @@ body {
     margin: 0 auto;
     /* padding: 0 20px; */
 }
+.section {
+    padding: 100px 20px 0px;
+}
+
+.section-title {
+    position: relative;
+    font-family: 'Merriweather', serif;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 40px;
+    line-height: 80px;
+    text-align: center;
+    color: var(--color-gold);
+
+}
+.section-title::before {
+    position: absolute;
+    content: '';
+    height: 2px;
+    width: 700px;
+    left: calc(50% - 350px);
+    top: calc(50% - 1px);
+    background-color: var(--color-gold);
+    z-index: -1;
+}
+.section-title__text {
+    padding: 0px 20px;
+    background-color: var(--color-dark);
+}
+
 .btn {
     width: 220px;
     height: 55px;
     border: none;
     border-radius: 0px;
     color: var(--color-dark);
-
     font-family: 'Inter', sans-serif;
     line-height: 40px;
     text-align: center;
