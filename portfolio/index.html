@@ -4,46 +4,50 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="./css/index.css">
     <title>Portfolio</title>
     <link rel="icon" type="image/x-icon" href="./assets/favicon/favicon.ico">
 </head>
 <body>
     <header class="header">
-        <div class="container">
+        <div class="container header-container">
             <div class="logo"></div>
             <nav class="nav">
                 <ul class="nav-list">
                     <li class="nav-item">
-                        <a href="#" class="nav-link">Skills</a>
+                        <a href="#skills" class="nav-link">Skills</a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link">Portfolio</a>
+                        <a href="#portfolio" class="nav-link">Portfolio</a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link">Video</a>
+                        <a href="#video" class="nav-link">Video</a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link">Price</a>
+                        <a href="#price" class="nav-link">Price</a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link">Contacts</a>
+                        <a href="#contacts" class="nav-link">Contacts</a>
                     </li>
                 </ul>
             </nav>
             <div class="switch-lng">
-                <span class="lang ">en</span>/<span class="lang">ru</span>
+                <span class="lang active">en</span>/<span class="lang">ru</span>
             </div>
         </div>
     </header>
     <main class="main">
         <div class="container">
-            <section class="section-hero">
+            <section class="section section-hero">
                 <h1 class="hero-title">Alexa Rise</h1>
                 <p class="hero-text">Save sincere emotions, romantic feelings and happy moments of life together with professional photographer Alexa Rise</p>
                 <button class="hero-button">Hire me</button>
             </section>
-            <section class="section-skills">
+            <section class="section section-skills" id="skills">
                 <h2 class="skills-title">Skills</h2>
                 <div class="skills-items">
                     <div class="skills-item">
@@ -68,7 +72,7 @@
                     </div>
                 </div>
             </section>
-            <section class="section-portfolio">
+            <section class="section section-portfolio" id="portfolio">
                 <h2 class="portfolio-title">Portfolio</h2>
                 <div class="portfolio-btns">
                     <button class="portfolio-btn" data-season="winter">Winter</button>
@@ -85,13 +89,13 @@
                     <div class="portfolio-item"></div>
                 </div>
             </section>
-            <section class="section-video">
+            <section class="section section-video" id="video">
                 <h2 class="video-title">Video</h2>
                 <div class="video-player">
                     <button class="player-btn"></button>
                 </div>
             </section>
-            <section class="section-price">
+            <section class="section section-price" id="price">
                 <h2 class="price-title">Price</h2>
                 <div class="price-items">
                     <div class="price-item">
@@ -126,7 +130,7 @@
                     </div>
                 </div>
             </section>
-            <section class="section-contscts">
+            <section class="section section-contacts" id="contacts">
                 <form action="get" class="contacts-form">
                     <h2 class="contacts-title">Contacts me</h2>
                     <input class="contacts-form__email" type="email" placeholder="E-mail">
