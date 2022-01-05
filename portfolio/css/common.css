@@ -11,16 +11,27 @@
 }
 
 body {
-    font-family: 'Inter', sans-serif;
+    /* font-family: 'Inter', sans-serif; */
     font-style: normal;
     font-weight: normal;
     font-size: 20px;
-    /* background-color: var(--color-dark); */
+    background-color: var(--color-dark);
     color: var(--color-white);
 }
 
 .container {
     max-width: 1440px;
     margin: 0 auto;
-    padding: 0 20px;
+    /* padding: 0 20px; */
+}
+.btn {
+    width: 220px;
+    height: 55px;
+    border: none;
+    border-radius: 0px;
+    color: var(--color-dark);
+
+    font-family: 'Inter', sans-serif;
+    line-height: 40px;
+    text-align: center;
 }

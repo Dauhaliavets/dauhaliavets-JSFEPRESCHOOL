@@ -1,0 +1,28 @@
+.section { }
+.section-hero { 
+    margin-top: -90px;
+    padding: 250px 80px 330px 80px;
+    background: url('../assets/img/bg.jpg');
+	background-repeat: no-repeat;
+	background-position: center;
+}
+.hero-title { 
+    font-family: 'Merriweather', serif;
+    /* font-style: normal; */
+    font-weight: bold;
+    font-size: 60px;
+    line-height: 120px;
+    margin: 0;
+}
+.hero-text { 
+    font-family: 'Inter', sans-serif;
+    /* font-style: normal; */
+    /* font-weight: normal; */
+    /* font-size: 20px; */
+    line-height: 40px;
+    max-width: 470px;
+    margin: 10px 0px 25px;
+}
+.hero-button { 
+    background-color: var(--color-gold);
+}
