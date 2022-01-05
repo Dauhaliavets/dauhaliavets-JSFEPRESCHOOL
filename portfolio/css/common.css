@@ -37,7 +37,7 @@ body {
     line-height: 80px;
     text-align: center;
     color: var(--color-gold);
-
+    margin-bottom: 60px;
 }
 .section-title::before {
     position: absolute;
