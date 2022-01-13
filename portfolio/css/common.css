@@ -9,6 +9,9 @@
     --color-gold: #bdae82;
     --color-white: #ffffff;
 }
+html {
+    scroll-behavior: smooth;
+}
 
 body {
     font-style: normal;
