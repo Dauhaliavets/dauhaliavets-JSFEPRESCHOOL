@@ -1,0 +1,41 @@
+.portfolio-title {
+    padding-top: 1px;
+}
+.portfolio-btns { 
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    margin-bottom: 60px;
+}
+.portfolio-btn { 
+    width: 220px;
+    height: 55px;
+    border: 2px solid var(--color-gold);
+    background-color: transparent;
+    border-radius: 0px;
+    color: var(--color-gold);
+    font-family: 'Inter', sans-serif;
+    line-height: 40px;
+    text-align: center;
+    cursor: pointer;
+    transition: color 0.3s ease-in;
+}
+.portfolio-btn:hover {
+    color: var(--color-white);
+    transition: color 0.3s ease-in;
+}
+.active {
+    background-color: var(--color-gold);
+    color: var(--color-dark);
+    transition: color 0.3s ease-in;
+}
+.portfolio-items { 
+    display: flex;
+    flex-wrap: wrap;
+    gap: 25px;
+    cursor: pointer;
+}
+.portfolio-item { 
+    width: 450px;
+    height: 560px;
+}

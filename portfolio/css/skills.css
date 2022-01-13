@@ -1,0 +1,54 @@
+.section { }
+.section-skills { }
+.section-title { }
+.skills-title { }
+.section-title__text { }
+.skills-items { 
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.skills-item {
+    max-width: 320px;
+    padding: 100px 20px 8px;
+    background-position: center top;
+}
+
+.skills-item:nth-child(1) {
+    background-image: url('../assets/svg/camera-icon.svg');
+    background-size: 62px 50px;
+    background-repeat: no-repeat;
+}
+.skills-item:nth-child(2) {
+    background-image: url('../assets/svg/video-icon.svg');
+    background-size: 60px 50px;
+    background-repeat: no-repeat;
+}
+.skills-item:nth-child(3) {
+    background-image: url('../assets/svg/image-icon.svg');
+    background-size: 66px 50px;
+    background-repeat: no-repeat;
+}
+.skills-item:nth-child(4) {
+    background-image: url('../assets/svg/mic-icon.svg');
+    background-size: 32px 50px;
+    background-repeat: no-repeat;
+}
+.skills-item__icon { }
+.skills-item__title { 
+    margin-bottom: 21px;
+    font-family: 'Inter', sans-serif;
+    font-weight: bold;
+    line-height: 40px;
+    text-align: center;
+    color: var(--color-white);
+}
+.skills-item__text { 
+    font-family: 'Inter', sans-serif;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 36px;
+    text-align: center;
+    color: #FFFFFF;
+}

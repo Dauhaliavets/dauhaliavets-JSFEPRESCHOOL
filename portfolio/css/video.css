@@ -1,0 +1,26 @@
+.video-player { 
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.player-image {
+
+}
+.player-btn { 
+    width: 130px;
+    height: 130px;
+    position: absolute;
+    top: calc(50% - 65px);
+    left: calc(50% - 65px);
+    border: none;
+    background-color: transparent;
+    background-image: url('../assets/svg/play-icon.svg');
+    transition: filter 0.3s ease-in;
+}
+.player-btn:hover {
+    cursor: pointer;
+	filter: invert(26%) sepia(15%) saturate(638%) hue-rotate(7deg) brightness(92%)
+		contrast(87%);
+    transition: filter 0.3s ease-in;
+}
