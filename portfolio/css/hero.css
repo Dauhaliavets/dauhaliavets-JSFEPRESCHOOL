@@ -8,7 +8,6 @@
 }
 .hero-title { 
     font-family: 'Merriweather', serif;
-    /* font-style: normal; */
     font-weight: bold;
     font-size: 60px;
     line-height: 120px;
@@ -16,9 +15,6 @@
 }
 .hero-text { 
     font-family: 'Inter', sans-serif;
-    /* font-style: normal; */
-    /* font-weight: normal; */
-    /* font-size: 20px; */
     line-height: 40px;
     max-width: 470px;
     margin: 10px 0px 25px;

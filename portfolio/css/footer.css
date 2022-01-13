@@ -8,8 +8,9 @@
     font-family: 'Inter', sans-serif;
     line-height: 50px;
 }
+.copyright-icon {}
 .copyright-info { 
-    margin: 0 20px;
+    margin: 0 15px;
 }
 .copyright-link { 
     text-decoration: none;
@@ -21,18 +22,25 @@
 .rss { 
     font-family: 'Inter', sans-serif;
     line-height: 50px;
+    font-size: 20px;
+    margin-left: 18px;
 }
 .socials-list { 
+    padding-top: 5px;
     display: flex;
     list-style: none;
 }
-.socials-item { }
+.socials-item { 
+    margin-left: 20px;
+}
+.socials-item:first-child { 
+    margin-left: 0;
+}
 .socials-link { }
 
 .icon {
     width: 32px;
     height: 32px;
-    margin-left: 20px;
     fill: var(--color-white);
 }
 

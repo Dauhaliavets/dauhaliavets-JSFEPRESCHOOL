@@ -35,9 +35,9 @@
     background-size: 32px 50px;
     background-repeat: no-repeat;
 }
-/* .skills-item__icon { } */
+.skills-item__icon { }
 .skills-item__title { 
-    margin-bottom: 20px;
+    margin-bottom: 21px;
     font-family: 'Inter', sans-serif;
     font-weight: bold;
     line-height: 40px;
@@ -45,15 +45,10 @@
     color: var(--color-white);
 }
 .skills-item__text { 
-    /* max-width: 280px;git status */
     font-family: 'Inter', sans-serif;
-    /* font-style: normal; */
     font-weight: normal;
     font-size: 18px;
     line-height: 36px;
-    /* or 200% */
-
     text-align: center;
-
     color: #FFFFFF;
 }

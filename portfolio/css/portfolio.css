@@ -1,3 +1,6 @@
+.portfolio-title {
+    padding-top: 1px;
+}
 .portfolio-btns { 
     display: flex;
     justify-content: center;
