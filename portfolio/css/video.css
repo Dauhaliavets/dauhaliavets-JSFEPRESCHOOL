@@ -16,9 +16,11 @@
     border: none;
     background-color: transparent;
     background-image: url('../assets/svg/play-icon.svg');
+    transition: filter 0.3s ease-in;
 }
 .player-btn:hover {
     cursor: pointer;
 	filter: invert(26%) sepia(15%) saturate(638%) hue-rotate(7deg) brightness(92%)
 		contrast(87%);
+    transition: filter 0.3s ease-in;
 }

@@ -18,13 +18,16 @@
     line-height: 40px;
     text-align: center;
     cursor: pointer;
+    transition: color 0.3s ease-in;
 }
 .portfolio-btn:hover {
     color: var(--color-white);
+    transition: color 0.3s ease-in;
 }
 .active {
     background-color: var(--color-gold);
     color: var(--color-dark);
+    transition: color 0.3s ease-in;
 }
 .portfolio-items { 
     display: flex;
