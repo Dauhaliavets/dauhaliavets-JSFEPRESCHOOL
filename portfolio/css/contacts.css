@@ -60,3 +60,35 @@
     color: #bdae82;
     font-size: 20px;
 }
+
+@media (max-width: 1440px) {
+
+}
+@media (max-width: 992px) {
+    .section-contacts { 
+        padding: 60px 20px 111px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .contacts-title {
+        margin: 0 0 20px 0;
+        font-size: 32px;
+        line-height: 64px;
+    }
+    .contacts-form { 
+        margin: 0 0 0 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .contacts-form__textarea {
+        margin-bottom: 30px;
+    }
+}
+@media (max-width: 768px) {
+
+}
+@media (max-width: 480px) {
+
+}

@@ -31,6 +31,7 @@
 }
 .portfolio-items { 
     display: flex;
+    justify-content: space-between;
     flex-wrap: wrap;
     gap: 25px;
     cursor: pointer;
@@ -38,4 +39,26 @@
 .portfolio-item { 
     width: 450px;
     height: 560px;
+}
+
+
+@media (max-width: 1440px) {
+    .portfolio-items { 
+        justify-content: center;
+    }
+
+}
+@media (max-width: 992px) {
+    .portfolio-btns { 
+        flex-wrap: wrap;
+        padding: 0 15vw;
+    }
+}
+@media (max-width: 768px) {
+    .portfolio-btns { 
+        padding: 0;
+    }
+}
+@media (max-width: 480px) {
+
 }
