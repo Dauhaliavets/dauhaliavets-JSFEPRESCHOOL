@@ -75,6 +75,7 @@
         overflow: hidden;
         background-color: var(--color-dark);
         transition: right 0.3s linear;
+        z-index: 1;
     }
     .nav_active {
         right: 0px;
