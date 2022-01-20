@@ -41,9 +41,13 @@
     }
 }
 @media (max-width: 768px) {
+    .video-title {
+        margin-bottom: 50px;
+    }
     .player-image {
         width: auto;
         height: 418px;
+        margin-left: 50px;
     }
     .player-btn { 
         width: 65px;
@@ -53,5 +57,9 @@
     }
 }
 @media (max-width: 480px) {
-
+    .player-image {
+        width: 170%;
+        height: auto;
+        margin-left: 0;
+    }
 }

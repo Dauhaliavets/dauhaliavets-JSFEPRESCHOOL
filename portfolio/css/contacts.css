@@ -72,7 +72,7 @@
         align-items: center;
     }
     .contacts-title {
-        margin: 0 0 20px 0;
+        margin: 0 0 40px 0;
         font-size: 32px;
         line-height: 64px;
     }
@@ -87,8 +87,28 @@
     }
 }
 @media (max-width: 768px) {
-
+    .section-contacts { 
+        background-size: cover;
+    }
 }
 @media (max-width: 480px) {
-
+    .section-contacts {
+        padding: 50px 20px 50px;
+        background-position: -200px center;
+    }
+    .contacts-title {
+        margin: 0 0 20px 0;
+    }
+    .contacts-form {
+        width: 100%;
+    }
+    .contacts-form__email {
+        width: 100%;
+    }
+    .contacts-form__tel {
+        width: 100%;
+    }
+    .contacts-form__textarea {
+        width: 100%;
+    }
 }

@@ -25,6 +25,8 @@
 @media (max-width: 768px) {
     .section-hero {
         padding: 168px 60px 152px 60px;
+        background-size: auto 620px;
+        background-position: -5px -30px;
     }
     .hero-title {
         font-weight: normal;
