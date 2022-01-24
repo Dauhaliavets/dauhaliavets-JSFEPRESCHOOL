@@ -1,4 +1,32 @@
+const portfolioBtns = document.querySelectorAll('.portfolio-btn');
+const portfolioImages = document.querySelectorAll('.portfolio-photo');
 
+portfolioBtns.forEach(btn => {
+    btn.addEventListener('click', handlerBtnClick);
+});
+
+function handlerBtnClick(event){
+    const dataset = event.target.dataset.season;
+
+    portfolioBtns.forEach(btn => {
+        if(btn.dataset.season === dataset) {
+            btn.classList.add('active');
+            showActiveItems(dataset);
+        } else {
+            btn.classList.remove('active');
+        }
+    });
+
+};
+
+function showActiveItems(dataset){
+
+    portfolioImages.forEach((image, index) => {
+        image.src = `./assets/img/${dataset}/${index + 1}.jpg`;
+        image.alt = `${dataset}-${index + 1}`;
+    });
+
+};
 
 
 console.log(`    Вёрстка соответствует макету. Ширина экрана 768px +48
