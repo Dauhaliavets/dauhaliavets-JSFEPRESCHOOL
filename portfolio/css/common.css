@@ -11,6 +11,7 @@
 }
 html {
     scroll-behavior: smooth;
+    overflow-x: hidden;
 }
 
 body {
@@ -19,6 +20,11 @@ body {
     font-size: 20px;
     background-color: var(--color-dark);
     color: var(--color-white);
+    overflow-x: hidden;
+}
+
+.overlay {
+    opacity: 0.5;
 }
 
 .container {
@@ -70,4 +76,28 @@ body {
     cursor: pointer;
     color: var(--color-white);
     transition: color 0.3s ease-in;
+}
+
+@media (max-width: 768px) {
+    .section {
+        width: 100%;
+        padding: 80px 60px 0 60px;
+    }
+    .section-title {
+        font-size: 32px;
+        line-height: 80px;
+    }
+    .section-title::before {
+        width: 364px;
+        left: calc(50% - 182px);
+    }
+}
+@media (max-width: 480px) {
+    .section {
+        padding: 50px 20px 0;
+    }
+    .section-title::before {
+        width: 280px;
+        left: calc(50% - 140px);
+    }
 }
