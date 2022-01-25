@@ -36,7 +36,6 @@
     font-weight: bold;
     line-height: 40px;
     text-align: center;
-    color: var(--color-white);
 }
 .skills-item__text { 
     font-family: 'Inter', sans-serif;
@@ -44,7 +43,6 @@
     font-size: 18px;
     line-height: 36px;
     text-align: center;
-    color: #FFFFFF;
 }
 
 @media (max-width: 1440px) {

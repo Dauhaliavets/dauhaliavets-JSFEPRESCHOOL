@@ -6,6 +6,16 @@ const portfolioImages = document.querySelectorAll('.portfolio-photo');
 const langBtns = document.querySelectorAll('.lang');
 const i18nItems = document.querySelectorAll('[data-i18n]');
 
+const changerTheme = document.querySelector('.changer-theme');
+const themes = document.querySelectorAll('.theme');
+const navigation = document.querySelector('.nav');
+const navLink = document.querySelectorAll('.nav-link');
+const burgerLines = document.querySelectorAll('.burger-line', '.burger-line::before', '.burger-line::after');
+const sections = document.querySelectorAll('.section');
+const sectionTitlsBefore = document.querySelectorAll('.section-title::before');
+const sectionTitles = document.querySelectorAll('.section-title');
+const sectionTitlesText = document.querySelectorAll('.section-title__text');
+
 portfolioBtns.forEach((btn) => {
 	btn.addEventListener('click', (e) => {handlerBtnClick(e, 'season', portfolioBtns, 'active', showActiveItems)});
 });
@@ -13,6 +23,8 @@ portfolioBtns.forEach((btn) => {
 langBtns.forEach((btn) => {
 	btn.addEventListener('click', (e) => {handlerBtnClick(e, 'lang', langBtns, 'current', changeLanguage)});
 });
+
+changerTheme.addEventListener('click', handlerThemeClick);
 
 function handlerBtnClick(event, attr, selectors, activeClass, activeFunction) {
 	const dataset = event.target.dataset[attr];
@@ -41,35 +53,34 @@ function changeLanguage(lang) {
 	});
 };
 
+function handlerThemeClick(event){
+    const currentTheme = event.target.closest('.theme');
+	const dataAttrTheme = currentTheme.dataset.theme;
 
-// season portfolioBtns 'active' showActiveItems
-// function handlerBtnClick(event) {
-// 	const dataset = event.target.dataset.season;
+    themes.forEach(theme => {
+        if(theme.dataset.theme === dataAttrTheme) {
+            theme.classList.remove('theme-active');
+			switchTheme();
+        } else {
+            theme.classList.add('theme-active');
+        }
+    });
 
-// 	portfolioBtns.forEach((btn) => {
-// 		if (btn.dataset.season === dataset) {
-// 			btn.classList.add('active');
-// 			showActiveItems(dataset);
-// 		} else {
-// 			btn.classList.remove('active');
-// 		}
-// 	});
-// }
-// lang langBtns 'current' changeLanguage
-// function handlerLangClick(event) {
-// 	const dataset = event.target.dataset.lang;
+}
 
-// 	langBtns.forEach((btn) => {
-// 		if (btn.dataset.lang === dataset) {
-// 			btn.classList.add('current');
-// 			changeLanguage(dataset);
-// 		} else {
-// 			btn.classList.remove('current');
-// 		}
-// 	});
-// };
+function switchTheme(){
+	console.log(navigation);
+	navigation.classList.toggle('light-theme');
 
-
+	navLink.forEach(el => el.classList.toggle('light-theme'));
+	burgerLines.forEach(el => el.classList.toggle('light-theme'));
+	sections.forEach(el => el.classList.toggle('light-theme'));
+	sectionTitlsBefore.forEach(el => el.classList.toggle('light-theme'));
+	sectionTitles.forEach(el => el.classList.toggle('light-theme'));
+	sectionTitlesText.forEach(el => el.classList.toggle('light-theme'));
+	portfolioBtns.forEach(el => el.classList.toggle('light-theme'));
+	
+};
 
 // console.log(`    Вёрстка соответствует макету. Ширина экрана 768px +48
 // - блок <header> +6
