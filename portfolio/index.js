@@ -7,35 +7,58 @@ const langBtns = document.querySelectorAll('.lang');
 const i18nItems = document.querySelectorAll('[data-i18n]');
 
 const changerTheme = document.querySelector('.changer-theme');
-const body = document.querySelector('body');
-const themes = document.querySelectorAll('.theme');
-const navigation = document.querySelector('.nav');
-const navLink = document.querySelectorAll('.nav-link');
-const burgerLines = document.querySelectorAll('.burger-line', '.burger-line::before', '.burger-line::after');
-const sections = document.querySelectorAll('.section');
-const sectionTitlsBefore = document.querySelectorAll('.section-title::before');
-const sectionTitles = document.querySelectorAll('.section-title');
-const sectionTitlesText = document.querySelectorAll('.section-title__text');
+const themesBtns = document.querySelectorAll('.theme');
+
+const selectorsForChangeTheme = [
+	document.querySelector('body'),
+	document.querySelector('.nav'),
+	document.querySelectorAll('.nav-link'),
+	document.querySelectorAll(
+		'.burger-line',
+		'.burger-line::before',
+		'.burger-line::after'
+	),
+	document.querySelectorAll('.section'),
+	document.querySelectorAll('.section-title::before'),
+	document.querySelectorAll('.section-title'),
+	document.querySelectorAll('.section-title__text'),
+	portfolioBtns,
+];
+
+window.addEventListener('load', getLocalStorage);
+
+function getLocalStorage() {
+    const lang = localStorage.getItem('lang');
+    const theme = localStorage.getItem('theme');
+
+    if(lang) {
+        setLanguage(langBtns, lang);
+    } 
+    if(theme) {
+        setTheme(themesBtns, theme, selectorsForChangeTheme);
+    }
+
+}
 
 portfolioBtns.forEach((btn) => {
-	btn.addEventListener('click', (e) => {handlerBtnClick(e, 'season', portfolioBtns, 'active', showActiveItems)});
+	btn.addEventListener('click', handlerPortfolioBtnClick);
 });
 
 langBtns.forEach((btn) => {
-	btn.addEventListener('click', (e) => {handlerBtnClick(e, 'lang', langBtns, 'current', changeLanguage)});
+	btn.addEventListener('click', handlerLangBtnClick);
 });
 
-changerTheme.addEventListener('click', handlerThemeClick);
+changerTheme.addEventListener('click', handlerChangeThemeClick);
 
-function handlerBtnClick(event, attr, selectors, activeClass, activeFunction) {
-	const dataset = event.target.dataset[attr];
+function handlerPortfolioBtnClick(event) {
+	const dataset = event.target.dataset.season;
 
-	selectors.forEach((selector) => {
-		if (selector.dataset[attr] === dataset) {
-			selector.classList.add(activeClass);
-			activeFunction(dataset);
+	portfolioBtns.forEach((btn) => {
+		if (btn.dataset.season === dataset) {
+			btn.classList.add('active');
+			showActiveItems(dataset);
 		} else {
-			selector.classList.remove(activeClass);
+			btn.classList.remove('active');
 		}
 	});
 }
@@ -45,44 +68,53 @@ function showActiveItems(dataset) {
 		image.src = `./assets/img/${dataset}/${index + 1}.jpg`;
 		image.alt = `${dataset}-${index + 1}`;
 	});
-};
-
-function changeLanguage(lang) {
-	i18nItems.forEach((item) => {
-		const attr = item.dataset.i18n;
-		item.textContent = `${i18Obj[lang][attr]}`;
-	});
-};
-
-function handlerThemeClick(event){
-    const currentTheme = event.target.closest('.theme');
-	const dataAttrTheme = currentTheme.dataset.theme;
-
-    themes.forEach(theme => {
-        if(theme.dataset.theme === dataAttrTheme) {
-            theme.classList.remove('theme-active');
-			switchTheme();
-        } else {
-            theme.classList.add('theme-active');
-        }
-    });
-
 }
 
-function switchTheme(){
-	// console.log(navigation);
-	navigation.classList.toggle('light-theme');
-    body.classList.toggle('light-theme');
+function handlerLangBtnClick(event) {
+	const dataset = event.target.dataset['lang'];
 
-	navLink.forEach(el => el.classList.toggle('light-theme'));
-	burgerLines.forEach(el => el.classList.toggle('light-theme'));
-	sections.forEach(el => el.classList.toggle('light-theme'));
-	sectionTitlsBefore.forEach(el => el.classList.toggle('light-theme'));
-	sectionTitles.forEach(el => el.classList.toggle('light-theme'));
-	sectionTitlesText.forEach(el => el.classList.toggle('light-theme'));
-	portfolioBtns.forEach(el => el.classList.toggle('light-theme'));
-	
-};
+	localStorage.setItem('lang', dataset);
+	setLanguage(langBtns, dataset);
+}
+
+function setLanguage(btns, lang) {
+	btns.forEach((btn) => {
+		if (btn.dataset['lang'] === lang) {
+			btn.classList.add('current');
+			i18nItems.forEach((item) => {
+				const attr = item.dataset.i18n;
+				item.textContent = `${i18Obj[lang][attr]}`;
+			});
+		} else {
+			btn.classList.remove('current');
+		}
+	});
+}
+
+function handlerChangeThemeClick(event) {
+	const currentTheme = event.target.closest('.theme');
+	const dataAttrTheme = currentTheme.dataset.theme;
+
+	localStorage.setItem('theme', dataAttrTheme);
+	setTheme(themesBtns, dataAttrTheme, selectorsForChangeTheme);
+}
+
+function setTheme(btns, targetTheme, selectors) {
+	btns.forEach((btn) => {
+		if (btn.dataset.theme === targetTheme) {
+			btn.classList.remove('theme-active');
+			selectors.forEach((selector) => {
+				if (NodeList.prototype.isPrototypeOf(selector)) {
+					selector.forEach((el) => el.classList.toggle('light-theme'));
+				} else {
+					selector.classList.toggle('light-theme');
+				}
+			});
+		} else {
+			btn.classList.add('theme-active');
+		}
+	});
+}
 
 // console.log(`    Вёрстка соответствует макету. Ширина экрана 768px +48
 // - блок <header> +6
