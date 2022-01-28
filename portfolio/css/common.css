@@ -23,6 +23,10 @@ body {
     overflow-x: hidden;
 }
 
+body.light-theme {
+    background-color: var(--color-white);
+}
+
 .overlay {
     position: relative;
     z-index: 2;

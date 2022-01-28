@@ -53,6 +53,9 @@
 }
 
 @media (max-width: 768px) {
+    .section-skills {
+        padding: 80px 40px 0 40px;
+    }
     .skills-title { 
         margin-bottom: 36px;
     }
@@ -60,6 +63,8 @@
         padding-top: 9px;
         padding-right: 4px;
         padding-bottom: 37px;
+        justify-content: space-around;
+        gap: 36px 0px;
     }
     .skills-item {
         max-width: 300px;

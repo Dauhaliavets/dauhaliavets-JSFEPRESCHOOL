@@ -7,6 +7,7 @@ const langBtns = document.querySelectorAll('.lang');
 const i18nItems = document.querySelectorAll('[data-i18n]');
 
 const changerTheme = document.querySelector('.changer-theme');
+const body = document.querySelector('body');
 const themes = document.querySelectorAll('.theme');
 const navigation = document.querySelector('.nav');
 const navLink = document.querySelectorAll('.nav-link');
@@ -69,8 +70,9 @@ function handlerThemeClick(event){
 }
 
 function switchTheme(){
-	console.log(navigation);
+	// console.log(navigation);
 	navigation.classList.toggle('light-theme');
+    body.classList.toggle('light-theme');
 
 	navLink.forEach(el => el.classList.toggle('light-theme'));
 	burgerLines.forEach(el => el.classList.toggle('light-theme'));
