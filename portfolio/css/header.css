@@ -15,6 +15,8 @@
 	background-repeat: no-repeat;
     background-position: center;
 	transition: 0.3s;
+    position: relative;
+    z-index: 2;
 }
 .logo:hover {
     cursor: pointer;
@@ -47,6 +49,7 @@
     justify-content: center;
     align-items: center;
     cursor: pointer;
+    margin-right: 30px;
 }
 .lang {
     font-weight: bold;
@@ -62,6 +65,34 @@
     color: var(--color-gold);
 }
 
+
+.changer-theme { 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 30px;
+}
+.theme { 
+    justify-content: center;
+    align-items: center;
+}
+.theme:hover {
+    cursor: pointer;
+}
+.theme-dark-icon { 
+    display: none;
+    width: 45px;
+    height: 45px;
+}
+.theme-light-icon { 
+    display: none;
+    width: 45px;
+    height: 45px;
+}
+.theme-active { 
+    display: flex;
+}
+
 @media (max-width: 768px) {
     .header-container {
         padding: 20px 64px 20px 60px;
@@ -73,10 +104,13 @@
         position: absolute;
         top: 0;
         right: -620px;
-        z-index: 1;
+        z-index: 5;
         overflow: hidden;
         background-color: var(--color-dark);
         transition: right 0.3s linear;
+    }
+    .nav.light-theme {
+        background-color: var(--color-white);
     }
     .nav_active {
         right: 0px;
@@ -92,6 +126,12 @@
     .nav-link {
         font-size: 35px;
         line-height: 73px;
+    }
+    .nav-link.light-theme {
+        color: var(--color-dark);
+    }
+    .nav-link.light-theme:hover {
+        color: var(--color-gold);
     }
 
     .switch-lng {

@@ -10,7 +10,7 @@
         justify-content: space-around;
         align-items: center;
         flex-direction: column;
-        z-index: 2;
+        z-index: 6;
     }
     .burger-btn:hover {
         cursor: pointer;
@@ -69,6 +69,18 @@
     .burger-btn_active > .burger-line::after {
         bottom: calc(50% - 1px);
         transform: rotate(-45deg);
+        transition: all 0.3s linear;
+    }
+
+    .burger-btn_active > .burger-line.light-theme,
+    .burger-btn_active > .burger-line.light-theme::before,
+    .burger-btn_active > .burger-line.light-theme::after {
+        background-color: var(--color-dark);
+    }
+    .burger-btn:hover > .burger-line.light-theme,
+    .burger-btn:hover > .burger-line.light-theme::before,
+    .burger-btn:hover > .burger-line.light-theme::after {
+        background-color: var(--color-gold);
         transition: all 0.3s linear;
     }
 }
