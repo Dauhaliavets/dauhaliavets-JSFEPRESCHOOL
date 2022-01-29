@@ -9,6 +9,8 @@ const i18nItems = document.querySelectorAll('[data-i18n]');
 const changerTheme = document.querySelector('.changer-theme');
 const themesBtns = document.querySelectorAll('.theme');
 
+const btns = document.querySelectorAll('.btn');
+
 const selectorsForChangeTheme = [
 	document.querySelector('body'),
 	document.querySelector('.nav'),
@@ -28,16 +30,15 @@ const selectorsForChangeTheme = [
 window.addEventListener('load', getLocalStorage);
 
 function getLocalStorage() {
-    const lang = localStorage.getItem('lang');
-    const theme = localStorage.getItem('theme');
+	const lang = localStorage.getItem('lang');
+	const theme = localStorage.getItem('theme');
 
-    if(lang) {
-        setLanguage(langBtns, lang);
-    } 
-    if(theme) {
-        setTheme(themesBtns, theme, selectorsForChangeTheme);
-    }
-
+	if (lang) {
+		setLanguage(langBtns, lang);
+	}
+	if (theme) {
+		setTheme(themesBtns, theme, selectorsForChangeTheme);
+	}
 }
 
 portfolioBtns.forEach((btn) => {
@@ -115,6 +116,29 @@ function setTheme(btns, targetTheme, selectors) {
 		}
 	});
 }
+
+btns.forEach(btn => {
+    btn.addEventListener('click', function (e) {
+        const x = e.pageX;
+        const y = e.pageY;
+    
+        const buttonTop = e.target.offsetTop;
+        const buttonLeft = e.target.offsetLeft;
+
+        const xInside = x - buttonLeft;
+        const yInside = y - buttonTop;
+
+        const circle = document.createElement('span');
+        circle.classList.add('circle');
+        circle.style.top = yInside + 'px';
+        circle.style.left = xInside + 'px';
+    
+        this.appendChild(circle);
+    
+        setTimeout(() => circle.remove(), 500);
+    });
+});
+
 
 // console.log(`    Вёрстка соответствует макету. Ширина экрана 768px +48
 // - блок <header> +6
