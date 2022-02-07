@@ -86,7 +86,6 @@
 .pause {
 	background-image: url('../assets/svg/pause.svg');
 }
-
 .progress__bar {
 	width: calc(80% - 40px);
     background: linear-gradient(to right, #BDAE82 0%, #BDAE82 0%, #fff 0%, #fff 100%);
@@ -105,6 +104,9 @@
     -webkit-appearance: none;
     cursor: ew-resize;
     background: #706445;
+}
+.progress__bar:hover {
+    cursor: pointer;
 }
 
 .volume__button {
@@ -134,7 +136,9 @@
     cursor: ew-resize;
     background: #706445;
 }
-
+.volume__bar:hover {
+    cursor: pointer;
+}
 .fullscreen__button {
     margin: 0 10px 0 20px;
 	background-image: url('../assets/svg/enlarge.svg');
@@ -153,8 +157,8 @@
 
 @media (max-width: 768px) {
     .section-video {
-        padding-right: 20px;
-        padding-left: 20px;
+        padding-right: 0;
+        padding-left: 0;
     }
     .player__btn {
         width: 75px;
