@@ -121,8 +121,16 @@
                     <span class="section-title__text" data-i18n="video">Video</span>
                 </h2>
                 <div class="video-player">
-                    <img class="player-image" src="./assets/img/video-player.jpg" alt="video-image">
-                    <button class="player-btn"></button>
+                    <div class="player__poster"></div>
+                    <video src="assets/video/video.mp4" class="player__video"></video>
+                    <div class="player__btn"></div>
+                    <div class="player__controls">
+                        <button class="player__button play__button"></button>
+                        <input class="progress__bar" type="range" min="0" max="100" value="0" name="progress" id="progress">
+                        <button class="player__button volume__button"></button>
+                        <input class="volume__bar" type="range" min="0" max="100" value="100" name="volume" id="volume">
+                        <button class="player__button fullscreen__button"></button>
+                    </div>
                 </div>
             </section>
             <section class="section section-price" id="price">
