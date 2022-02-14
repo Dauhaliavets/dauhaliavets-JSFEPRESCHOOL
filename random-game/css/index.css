@@ -72,6 +72,7 @@ body {
 	transition: 0.5s;
 }
 .field {
+	position: relative;
 	padding: 5px;
 	display: flex;
 	justify-content: space-evenly;
@@ -128,6 +129,23 @@ body {
 	background-color:#2448bd
 }
 
+.result {
+	font-family: 'Poppins', sans-serif;
+	font-weight: 700;
+	font-size: 24px;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: 9999;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+	background-color: rgba(255, 255, 255, 0.7);
+	transition: opacity 0.5;
+}
 
 /* Footer */
 .footer {

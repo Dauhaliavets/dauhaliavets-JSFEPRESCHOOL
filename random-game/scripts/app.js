@@ -3,9 +3,11 @@ import createFooter from './footer.js';
 const body = document.querySelector('body');
 
 const state = {
-	fieldSize: 3,
+	fieldSize: 2,
 	fieldMatrix: [],
 	score: 0,
+	scoreBest: 0,
+	win: false,
 };
 
 function createHTMLElement(
@@ -85,7 +87,9 @@ function getRandomIndex() {
 }
 
 function setRandomValueToMatrix() {
-	if (state.fieldMatrix.filter((cell) => cell.value === 0).length > 0) {
+	const isEmpryCells = getIsEmptyCellsToMatrix();
+
+	if (isEmpryCells) {
 		let ind = getRandomIndex();
 		let value = getRandomValue();
 
@@ -98,12 +102,15 @@ function setRandomValueToMatrix() {
 	} else {
 		let isMerge = getIsMerge();
 		if(!isMerge) {
-			showResult();
-			console.log('GAME OVER');
+			console.log('GAME OVER after set random value');
 		} else {
 			alert('Еще не все пропало:) Можно соединить ячейки!');
 		}
 	}
+}
+
+function getIsEmptyCellsToMatrix(){
+	return state.fieldMatrix.filter((cell) => cell.value === 0).length !== 0;
 }
 
 function getIsMerge(){
@@ -154,6 +161,11 @@ function moveLeftOrRight(toDirection) {
 					for (let n = 0; n < itemsRow.length - 1; n++) {
 						if (itemsRow[n].value === itemsRow[n + 1].value) {
 							itemsRow[n].value += itemsRow[n + 1].value;
+
+							if(itemsRow[n].value === 2048) {
+								state.win = true;
+							}
+
 							// Когда к текущему элементу добавлен следующий элемент
 							// след.элементу устонавливаем значение 0
 							// обновляем значение в score
@@ -170,6 +182,11 @@ function moveLeftOrRight(toDirection) {
 					for (let n = itemsRow.length - 1; n > 0; n--) {
 						if (itemsRow[n].value === itemsRow[n - 1].value) {
 							itemsRow[n].value += itemsRow[n - 1].value;
+
+							if(itemsRow[n].value === 2048) {
+								state.win = true;
+							}
+
 							// Когда к текущему элементу добавлен следующий элемент
 							// след.элементу устонавливаем значение 0
 							// обновляем значение в score
@@ -231,6 +248,11 @@ function moveUpOrDown(toDirection) {
 					for (let n = 0; n < itemsCol.length - 1; n++) {
 						if (itemsCol[n].value === itemsCol[n + 1].value) {
 							itemsCol[n].value += itemsCol[n + 1].value;
+
+							if(itemsCol[n].value === 2048) {
+								state.win = true;
+							}
+
 							// Когда к текущему элементу добавлен следующий элемент
 							// след.элементу устонавливаем значение 0
 							// обновляем значение в score
@@ -247,6 +269,11 @@ function moveUpOrDown(toDirection) {
 					for (let n = itemsCol.length - 1; n > 0; n--) {
 						if (itemsCol[n].value === itemsCol[n - 1].value) {
 							itemsCol[n].value += itemsCol[n - 1].value;
+
+							if(itemsCol[n].value === 2048) {
+								state.win = true;
+							}
+
 							// Когда к текущему элементу добавлен следующий элемент
 							// след.элементу устонавливаем значение 0
 							// обновляем значение в score
@@ -306,6 +333,14 @@ function animate({ timing, draw, duration }) {
 }
 // ================================= Animation =====================================================
 
+function showResult(parentElement, content){
+	const result = createHTMLElement('div', 'result', '', '', content);
+
+	if(!parentElement.children[0].classList.contains('result')) {
+		parentElement.insertAdjacentElement('afterbegin', result);
+	}
+}
+
 function init() {
 	// Block Controls
 	const controls = createHTMLElement('div', 'controls', '500', '100', '');
@@ -323,6 +358,22 @@ function init() {
 		'',
 		'',
 		`${state.score}`
+	);
+
+	const scoreBestBlock = createHTMLElement('div', 'score__block', '100', '60', ``);
+	const scoreBestTitle = createHTMLElement(
+		'span',
+		'score__title',
+		'',
+		'',
+		'Best Score:'
+	);
+	const scoreBestResult = createHTMLElement(
+		'span',
+		'score__result',
+		'',
+		'',
+		`${state.scoreBest}`
 	);
 
 	const btnStart = createHTMLElement(
@@ -367,7 +418,11 @@ function init() {
 	scoreBlock.appendChild(scoreTitle);
 	scoreBlock.appendChild(scoreResult);
 
+	scoreBestBlock.appendChild(scoreBestTitle);
+	scoreBestBlock.appendChild(scoreBestResult);
+
 	controls.appendChild(scoreBlock);
+	controls.appendChild(scoreBestBlock);
 	controls.appendChild(btnStart);
 	controls.appendChild(btnResults);
 	controls.appendChild(btnSettings);
@@ -398,10 +453,26 @@ function init() {
 				break;
 		}
 
-		renderField(fieldBlock);
-		newCell = setRandomValueToMatrix();
-		renderField(fieldBlock, newCell);
 		scoreResult.textContent = `${state.score}`;
+
+		if(state.win) {
+			// console.log('winner');
+			showResult(fieldBlock, `You winner! Your score: ${state.score}`);
+		} else {
+			let isEmpryCells = getIsEmptyCellsToMatrix();
+			let isMerge = getIsMerge();
+	
+			if(isEmpryCells) {
+				newCell = setRandomValueToMatrix();
+				renderField(fieldBlock, newCell);
+			} else if (isMerge) {
+				renderField(fieldBlock);
+			} else {
+				// console.log('Loser');
+				showResult(fieldBlock, `You loser! Your score: ${state.score}`);
+			}
+		}
+
 	};
 }
 

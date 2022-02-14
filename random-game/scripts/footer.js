@@ -1,6 +1,6 @@
 function createFooter() {
 	const footer = document.createElement('footer');
-	footer.classList.add('footer');
+	footer.classList = 'footer';
 	footer.innerHTML = `
 		<div class="container">
 			<div class="footer__body">
