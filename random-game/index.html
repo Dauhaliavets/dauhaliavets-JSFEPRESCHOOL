@@ -4,14 +4,72 @@
 		<meta charset="UTF-8" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<link rel="preconnect" href="https://fonts.googleapis.com">
-		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-		<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap"
+			rel="stylesheet"
+		/>
 		<link rel="stylesheet" href="css/index.css" />
 		<title>2048</title>
-		<link rel="icon" type="image/x-icon" href="./assets/favicon/favicon.ico">
+		<link rel="icon" type="image/x-icon" href="./assets/favicon/favicon.ico" />
 	</head>
 	<body>
+		<header class="header">
+			<div class="container">
+				<div class="controls">
+					<div class="button button__start">New Game</div>
+					<div class="score__block">
+						<span class="score__title">Score:</span>
+						<span class="score__result score">0</span>
+					</div>
+					<div class="score__block">
+						<span class="score__title">Best score:</span>
+						<span class="score__result score-best">0</span>
+					</div>
+					<div class="button button__results"></div>
+					<div class="button button__settings"></div>
+					<div class="settings">
+						<label for="size-matrix">
+							Size matrix:
+							<input
+								class="settings__size"
+								type="number"
+								min="2"
+								max="6"
+								name="size-matrix"
+								id="size-matrix"
+								value="4"
+							/>
+						</label>
+						<label for="music">
+							Music:
+							<input
+								class="settings__music"
+								type="checkbox"
+								name="music"
+								id="music"
+								checked
+							/>
+						</label>
+						<p class="settings__rules">
+							<span>HOW TO PLAY:</span>
+							Use your arrow keys to move the tiles. When two tiles with the
+							same number touch, they merge into one!
+						</p>
+						<p class="settings__autor">
+							<span>Autor:</span>
+							Dzmitry Dauhaliavets
+						</p>
+						<p class="settings__version">
+							<span>Version:</span>
+							v1.0
+						</p>
+					</div>
+				</div>
+			</div>
+		</header>
+
 		<script type="module" src="./scripts/app.js"></script>
 	</body>
 </html>

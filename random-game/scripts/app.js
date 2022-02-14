@@ -1,6 +1,18 @@
 import createFooter from './footer.js';
 
 const body = document.querySelector('body');
+const startBtn = document.querySelector('.button__start');
+const scoreRes = document.querySelector('.score');
+const scoreBestRes = document.querySelector('.score-best');
+const recordsBtn = document.querySelector('.button__records');
+const settingsBtn = document.querySelector('.button__settings');
+const settings = document.querySelector('.settings');
+
+const audio = new Audio('./assets/mp3/track.mp3');
+audio.loop = true;
+// audio.autoplay = true;
+audio.volume = 0.5;
+// body.appendChild(audio);
 
 const state = {
 	fieldSize: 2,
@@ -8,6 +20,7 @@ const state = {
 	score: 0,
 	scoreBest: 0,
 	win: false,
+	playMusic: true,
 };
 
 function createHTMLElement(
@@ -101,7 +114,7 @@ function setRandomValueToMatrix() {
 		}
 	} else {
 		let isMerge = getIsMerge();
-		if(!isMerge) {
+		if (!isMerge) {
 			console.log('GAME OVER after set random value');
 		} else {
 			alert('Еще не все пропало:) Можно соединить ячейки!');
@@ -109,25 +122,25 @@ function setRandomValueToMatrix() {
 	}
 }
 
-function getIsEmptyCellsToMatrix(){
+function getIsEmptyCellsToMatrix() {
 	return state.fieldMatrix.filter((cell) => cell.value === 0).length !== 0;
 }
 
-function getIsMerge(){
+function getIsMerge() {
 	let bool = false;
-	for(let i = 0; i < state.fieldSize; i++){
-		let itemsRow = state.fieldMatrix.filter(item => item.x === i);
-		let itemsCol = state.fieldMatrix.filter(item => item.y === i);
+	for (let i = 0; i < state.fieldSize; i++) {
+		let itemsRow = state.fieldMatrix.filter((item) => item.x === i);
+		let itemsCol = state.fieldMatrix.filter((item) => item.y === i);
 
-		for(let j = 0; j < state.fieldSize - 1; j++) {
-			if(itemsRow[j].value === itemsRow[j + 1].value) {
-				if(itemsRow[j].value !== 0) {
+		for (let j = 0; j < state.fieldSize - 1; j++) {
+			if (itemsRow[j].value === itemsRow[j + 1].value) {
+				if (itemsRow[j].value !== 0) {
 					bool = true;
 				}
 			}
 
-			if(itemsCol[j].value === itemsCol[j + 1].value) {
-				if(itemsCol[j].value !== 0) {
+			if (itemsCol[j].value === itemsCol[j + 1].value) {
+				if (itemsCol[j].value !== 0) {
 					bool = true;
 				}
 			}
@@ -162,7 +175,7 @@ function moveLeftOrRight(toDirection) {
 						if (itemsRow[n].value === itemsRow[n + 1].value) {
 							itemsRow[n].value += itemsRow[n + 1].value;
 
-							if(itemsRow[n].value === 2048) {
+							if (itemsRow[n].value === 2048) {
 								state.win = true;
 							}
 
@@ -183,7 +196,7 @@ function moveLeftOrRight(toDirection) {
 						if (itemsRow[n].value === itemsRow[n - 1].value) {
 							itemsRow[n].value += itemsRow[n - 1].value;
 
-							if(itemsRow[n].value === 2048) {
+							if (itemsRow[n].value === 2048) {
 								state.win = true;
 							}
 
@@ -249,7 +262,7 @@ function moveUpOrDown(toDirection) {
 						if (itemsCol[n].value === itemsCol[n + 1].value) {
 							itemsCol[n].value += itemsCol[n + 1].value;
 
-							if(itemsCol[n].value === 2048) {
+							if (itemsCol[n].value === 2048) {
 								state.win = true;
 							}
 
@@ -270,7 +283,7 @@ function moveUpOrDown(toDirection) {
 						if (itemsCol[n].value === itemsCol[n - 1].value) {
 							itemsCol[n].value += itemsCol[n - 1].value;
 
-							if(itemsCol[n].value === 2048) {
+							if (itemsCol[n].value === 2048) {
 								state.win = true;
 							}
 
@@ -333,79 +346,27 @@ function animate({ timing, draw, duration }) {
 }
 // ================================= Animation =====================================================
 
-function showResult(parentElement, content){
+function showResult(parentElement, content) {
 	const result = createHTMLElement('div', 'result', '', '', content);
 
-	if(!parentElement.children[0].classList.contains('result')) {
+	if (!parentElement.children[0].classList.contains('result')) {
 		parentElement.insertAdjacentElement('afterbegin', result);
 	}
 }
 
 function init() {
-	// Block Controls
-	const controls = createHTMLElement('div', 'controls', '500', '100', '');
-	const scoreBlock = createHTMLElement('div', 'score__block', '100', '60', ``);
-	const scoreTitle = createHTMLElement(
-		'span',
-		'score__title',
-		'',
-		'',
-		'Score:'
-	);
-	const scoreResult = createHTMLElement(
-		'span',
-		'score__result',
-		'',
-		'',
-		`${state.score}`
-	);
-
-	const scoreBestBlock = createHTMLElement('div', 'score__block', '100', '60', ``);
-	const scoreBestTitle = createHTMLElement(
-		'span',
-		'score__title',
-		'',
-		'',
-		'Best Score:'
-	);
-	const scoreBestResult = createHTMLElement(
-		'span',
-		'score__result',
-		'',
-		'',
-		`${state.scoreBest}`
-	);
-
-	const btnStart = createHTMLElement(
-		'div',
-		'button button__start',
-		'100',
-		'40',
-		'New Game'
-	);
-	btnStart.onclick = function () {
+	
+	startBtn.addEventListener('click', () => {
 		state.score = 0;
-		scoreResult.textContent = `${state.score}`;
+		scoreRes.textContent = `${state.score}`;
 		createField(state.fieldSize);
 		renderField(fieldBlock);
-	};
+	});
 
-	const btnResults = createHTMLElement(
-		'div',
-		'button button__results',
-		'100',
-		'40',
-		'Results'
-	);
+	settingsBtn.addEventListener('click', () => {
+		settings.classList.toggle('settings__show');
+	});
 
-	const btnSettings = createHTMLElement(
-		'div',
-		'button button__settings',
-		'48',
-		'48',
-		''
-	);
-	// Block Controls 
 
 	const fieldBlock = createHTMLElement(
 		'div',
@@ -414,24 +375,12 @@ function init() {
 		state.fieldSize * 110,
 		''
 	);
-
-	scoreBlock.appendChild(scoreTitle);
-	scoreBlock.appendChild(scoreResult);
-
-	scoreBestBlock.appendChild(scoreBestTitle);
-	scoreBestBlock.appendChild(scoreBestResult);
-
-	controls.appendChild(scoreBlock);
-	controls.appendChild(scoreBestBlock);
-	controls.appendChild(btnStart);
-	controls.appendChild(btnResults);
-	controls.appendChild(btnSettings);
-
-	body.appendChild(controls);
 	body.appendChild(fieldBlock);
 
+	// Footer
 	const footer = createFooter();
 	body.appendChild(footer);
+	// Footer
 
 	body.onkeydown = function (e) {
 		let newCell;
@@ -453,16 +402,20 @@ function init() {
 				break;
 		}
 
-		scoreResult.textContent = `${state.score}`;
+		scoreRes.textContent = `${state.score}`;
+		if(state.scoreBest < state.score) {
+			state.scoreBest = state.score;
+			scoreBestRes.textContent = state.scoreBest;
+		}
 
-		if(state.win) {
+		if (state.win) {
 			// console.log('winner');
 			showResult(fieldBlock, `You winner! Your score: ${state.score}`);
 		} else {
 			let isEmpryCells = getIsEmptyCellsToMatrix();
 			let isMerge = getIsMerge();
-	
-			if(isEmpryCells) {
+
+			if (isEmpryCells) {
 				newCell = setRandomValueToMatrix();
 				renderField(fieldBlock, newCell);
 			} else if (isMerge) {
@@ -472,7 +425,6 @@ function init() {
 				showResult(fieldBlock, `You loser! Your score: ${state.score}`);
 			}
 		}
-
 	};
 }
 
