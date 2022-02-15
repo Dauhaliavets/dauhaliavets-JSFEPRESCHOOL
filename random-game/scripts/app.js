@@ -1,21 +1,24 @@
 import createFooter from './footer.js';
 
 const body = document.querySelector('body');
+const gameField = document.querySelector('.game__field');
 const startBtn = document.querySelector('.button__start');
 const scoreRes = document.querySelector('.score');
 const scoreBestRes = document.querySelector('.score-best');
 const recordsBtn = document.querySelector('.button__records');
 const settingsBtn = document.querySelector('.button__settings');
 const settings = document.querySelector('.settings');
+const sizeBtns = document.querySelectorAll('.size');
+const musicBtn = document.querySelector('.settings__music-input');
 
 const audio = new Audio('./assets/mp3/track.mp3');
 audio.loop = true;
-// audio.autoplay = true;
+audio.autoplay = true;
 audio.volume = 0.5;
-// body.appendChild(audio);
+body.appendChild(audio);
 
 const state = {
-	fieldSize: 2,
+	fieldSize: 3,
 	fieldMatrix: [],
 	score: 0,
 	scoreBest: 0,
@@ -355,32 +358,69 @@ function showResult(parentElement, content) {
 }
 
 function init() {
-	
+	let fieldBlock;
+
+	function createGameField() {
+		gameField.innerHTML = '';
+
+		fieldBlock = createHTMLElement(
+			'div',
+			'field',
+			state.fieldSize * 110,
+			state.fieldSize * 110,
+			''
+		);
+
+		gameField.appendChild(fieldBlock);
+	}
+
+	createGameField();
+
 	startBtn.addEventListener('click', () => {
 		state.score = 0;
 		scoreRes.textContent = `${state.score}`;
+		createGameField();
 		createField(state.fieldSize);
 		renderField(fieldBlock);
+		toggleShowSettings();
 	});
 
-	settingsBtn.addEventListener('click', () => {
-		settings.classList.toggle('settings__show');
-	});
+	settingsBtn.addEventListener('click', toggleShowSettings);
 
+	function toggleShowSettings() {
+		if (settings.classList.contains('settings__show')) {
+			settings.classList.remove('settings__show');
+		} else {
+			settings.classList.add('settings__show');
+		}
+	}
 
-	const fieldBlock = createHTMLElement(
-		'div',
-		'field',
-		state.fieldSize * 110,
-		state.fieldSize * 110,
-		''
+	sizeBtns.forEach((btn) =>
+		btn.addEventListener('click', (e) => {
+			const sizeTarget = e.target.dataset.size;
+
+			sizeBtns.forEach((btn) => {
+				if (btn.dataset.size === sizeTarget) {
+					btn.classList.add('active');
+					state.fieldSize = +sizeTarget;
+					createGameField();
+				} else {
+					btn.classList.remove('active');
+				}
+			});
+		})
 	);
-	body.appendChild(fieldBlock);
 
-	// Footer
-	const footer = createFooter();
-	body.appendChild(footer);
-	// Footer
+	musicBtn.addEventListener('change', (e) => {
+		console.log(e.target.checked);
+		if(e.target.checked) {
+			audio.play();
+		} else {
+			audio.pause();
+		}
+	});
+
+
 
 	body.onkeydown = function (e) {
 		let newCell;
@@ -403,7 +443,7 @@ function init() {
 		}
 
 		scoreRes.textContent = `${state.score}`;
-		if(state.scoreBest < state.score) {
+		if (state.scoreBest < state.score) {
 			state.scoreBest = state.score;
 			scoreBestRes.textContent = state.scoreBest;
 		}
@@ -426,6 +466,13 @@ function init() {
 			}
 		}
 	};
+
+	// Footer
+	const footer = createFooter();
+	body.appendChild(footer);
+	// Footer
 }
 
 init();
+
+// console.log(state)

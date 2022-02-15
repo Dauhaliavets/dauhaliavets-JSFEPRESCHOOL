@@ -30,27 +30,24 @@
 					<div class="button button__results"></div>
 					<div class="button button__settings"></div>
 					<div class="settings">
-						<label for="size-matrix">
-							Size matrix:
-							<input
-								class="settings__size"
-								type="number"
-								min="2"
-								max="6"
-								name="size-matrix"
-								id="size-matrix"
-								value="4"
-							/>
-						</label>
-						<label for="music">
+						<h2 class="settings__title">Settings</h2>
+						<div class="settings__size">
+							<span class="settings__size-title">Size matrix:</span>
+							<span class="size" data-size="2">2x2</span>
+							<span class="size active" data-size="3">3x3</span>
+							<span class="size" data-size="4">4x4</span>
+							<span class="size" data-size="5">5x5</span>
+						</div>
+						<label class="settings__music-label" for="music">
 							Music:
 							<input
-								class="settings__music"
+								class="settings__music-input"
 								type="checkbox"
 								name="music"
 								id="music"
 								checked
 							/>
+							<span class="settings__music-checkmark"></span>
 						</label>
 						<p class="settings__rules">
 							<span>HOW TO PLAY:</span>
@@ -69,6 +66,7 @@
 				</div>
 			</div>
 		</header>
+		<main class="game__field"></main>
 
 		<script type="module" src="./scripts/app.js"></script>
 	</body>
