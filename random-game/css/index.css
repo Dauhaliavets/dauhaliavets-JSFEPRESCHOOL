@@ -12,7 +12,7 @@ body {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	background-color: #FAF8EF;
+	background-color: #faf8ef;
 	font-family: 'Poppins', sans-serif;
 	font-weight: 400;
 }
@@ -61,50 +61,92 @@ body {
 	position: relative;
 	width: 48px;
 	height: 48px;
-  z-index: 1;
+	z-index: 1;
 	background-color: transparent;
 }
 
 .button__settings:before {
-  content: "";
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  z-index: -1;
+	content: '';
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	z-index: -1;
 	background-image: url('../assets/svg/settings.svg');
 	background-position: 0 0;
 	background-repeat: no-repeat;
-  -webkit-transform: rotate(0deg);
-  transform: rotate(0deg);
+	-webkit-transform: rotate(0deg);
+	transform: rotate(0deg);
 	transition: 0.5s;
 }
-.button__settings:hover:before{
+.button__settings:hover:before {
 	-webkit-transform: rotate(90deg);
-  transform: rotate(90deg);
+	transform: rotate(90deg);
 	transition: 0.5s;
 }
 
-.button__results {
+.button__records {
 	position: relative;
-  z-index: 1;
+	z-index: 1;
 	width: 48px;
 	height: 28px;
 	background-color: transparent;
 }
 
-.button__results:before {
-  content: "";
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  z-index: -1;
+.button__records:before {
+	content: '';
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	z-index: -1;
 	background-image: url('../assets/svg/leaderboard.svg');
 	background-position: 0 0;
 	background-repeat: no-repeat;
+}
+/* Records */
+.records {
+	position: absolute;
+	z-index: 9999;
+	width: 500px;
+	height: 450px;
+	top: 120px;
+	left: calc(50% - 250px);
+	padding: 20px;
+	font-family: 'Poppins', sans-serif;
+	font-weight: 400;
+	font-size: 20px;
+	background-color: rgba(117, 117, 117, 0.836);
+	border-radius: 5px;
+	opacity: 0;
+	transition: 0.5s;
+}
+.records__show {
+	opacity: 1;
+	transition: 0.5s;
+}
+.records__title {
+	width: 100%;
+	text-align: center;
+}
+.records__subtitle {
+	text-align: left;
+	font-weight: 400;
+	font-size: 18px;
+}
+.records__score-best {
+	width: 200px;
+	margin: 0 auto;
+	text-align: left;
+	font-size: 16px;
+}
+.records__score-last {
+	width: 200px;
+	margin: 0 auto;
+	text-align: left;
+	font-size: 16px;
 }
 
 .field {
@@ -129,40 +171,39 @@ body {
 	align-items: center;
 	background-color: #aaacb0;
 	border-radius: 3px;
-
 }
 .cell-2 {
-	background-color:#EF476F
+	background-color: #ef476f;
 }
 .cell-4 {
-	background-color:#ef9347
+	background-color: #ef9347;
 }
 .cell-8 {
-	background-color:#FFC43D
+	background-color: #ffc43d;
 }
 .cell-16 {
-	background-color:#bbff3d
+	background-color: #bbff3d;
 }
 .cell-32 {
-	background-color:#3dff4d
+	background-color: #3dff4d;
 }
 .cell-64 {
-	background-color:#3dff7e
+	background-color: #3dff7e;
 }
 .cell-128 {
-	background-color:#06d6c5
+	background-color: #06d6c5;
 }
 .cell-256 {
-	background-color:#06a5d6
+	background-color: #06a5d6;
 }
 .cell-512 {
-	background-color:#1283b8
+	background-color: #1283b8;
 }
 .cell-1024 {
-	background-color:#cc51f1
+	background-color: #cc51f1;
 }
 .cell-2048 {
-	background-color:#2448bd
+	background-color: #2448bd;
 }
 
 .result {
@@ -184,11 +225,11 @@ body {
 }
 
 /* Settings */
-.settings { 
+.settings {
 	position: absolute;
 	z-index: 9999;
 	width: 500px;
-	height: 400px;
+	height: 450px;
 	top: 120px;
 	left: calc(50% - 250px);
 	padding: 20px;
@@ -214,7 +255,7 @@ body {
 .settings__size {
 	margin-bottom: 10px;
 }
-.settings__size-title { 
+.settings__size-title {
 	margin-right: 10px;
 }
 .size {
@@ -233,7 +274,7 @@ body {
 	position: relative;
 	cursor: pointer;
 }
-.settings__music-input { 
+.settings__music-input {
 	margin-left: 10px;
 	position: absolute;
 	opacity: 0;
@@ -245,7 +286,7 @@ body {
 }
 .settings__music-checkmark {
 	position: absolute;
-	content: "";
+	content: '';
 	width: 20px;
 	height: 20px;
 	top: calc(50% - 10px);
@@ -254,7 +295,7 @@ body {
 	background-color: rgba(255, 255, 255, 0.5);
 }
 .settings__music-checkmark::after {
-	content: "";
+	content: '';
 	position: absolute;
 	display: none;
 }
@@ -267,17 +308,16 @@ body {
 	border-left: 2px solid black;
 	border-bottom: 2px solid black;
 	transform: rotate(-45deg);
-	
 }
 
-.settings__rules { 
+.settings__rules {
 	margin-top: 20px;
 	margin-bottom: 20px;
 }
-.settings__autor { 
+.settings__autor {
 	line-height: 36px;
 }
-.settings__version { 
+.settings__version {
 	line-height: 36px;
 }
 
@@ -287,7 +327,7 @@ body {
 	position: fixed;
 	bottom: 0;
 	background-color: #121829;
-	color: #A8AEBF;
+	color: #a8aebf;
 }
 .container {
 	max-width: 1200px;

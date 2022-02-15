@@ -6,25 +6,44 @@ const startBtn = document.querySelector('.button__start');
 const scoreRes = document.querySelector('.score');
 const scoreBestRes = document.querySelector('.score-best');
 const recordsBtn = document.querySelector('.button__records');
+const records = document.querySelector('.records');
+const resordsBest = document.querySelector('.records__score-best');
+const resordsLast = document.querySelector('.records__score-last');
 const settingsBtn = document.querySelector('.button__settings');
 const settings = document.querySelector('.settings');
 const sizeBtns = document.querySelectorAll('.size');
 const musicBtn = document.querySelector('.settings__music-input');
 
-const audio = new Audio('./assets/mp3/track.mp3');
-audio.loop = true;
-audio.autoplay = true;
-audio.volume = 0.5;
-body.appendChild(audio);
-
 const state = {
-	fieldSize: 3,
+	fieldSize: null,
 	fieldMatrix: [],
 	score: 0,
+	scoreLast: [],
 	scoreBest: 0,
 	win: false,
-	playMusic: true,
 };
+
+const audio = new Audio('./assets/mp3/track.mp3');
+audio.loop = true;
+audio.volume = 0.2;
+body.appendChild(audio);
+
+window.addEventListener('load', () => {
+	state.fieldSize = JSON.parse(localStorage.getItem('fieldSize')) ?? 4;
+	state.scoreLast = JSON.parse(localStorage.getItem('scoreLast')) ?? [];
+	state.scoreBest = JSON.parse(localStorage.getItem('scoreBest')) ?? 0;
+
+	console.log(state);
+
+
+	init();
+});
+
+window.addEventListener('unload', () => {
+	localStorage.setItem('fieldSize', JSON.stringify(state.fieldSize));
+	localStorage.setItem('scoreLast', JSON.stringify(state.scoreLast));
+	localStorage.setItem('scoreBest', JSON.stringify(state.scoreBest));
+});
 
 function createHTMLElement(
 	tagName = 'div',
@@ -359,6 +378,17 @@ function showResult(parentElement, content) {
 
 function init() {
 	let fieldBlock;
+	// console.log(state);
+
+	scoreBestRes.textContent = state.scoreBest;
+	resordsBest.textContent = state.scoreBest;
+	sizeBtns.forEach(btn => {
+		if(btn.dataset.size == state.fieldSize) {
+			btn.classList.add('active');
+		}
+	});
+
+
 
 	function createGameField() {
 		gameField.innerHTML = '';
@@ -377,15 +407,69 @@ function init() {
 	createGameField();
 
 	startBtn.addEventListener('click', () => {
+
+		if(state.scoreLast.length > 9) {
+			state.scoreLast.shift();
+		}
+		state.scoreLast.push(state.score);
+		
+		// console.log(state.scoreLast)
+
 		state.score = 0;
 		scoreRes.textContent = `${state.score}`;
+
+		closeShowSettings();
+		closeShowRecords();
 		createGameField();
 		createField(state.fieldSize);
 		renderField(fieldBlock);
+		
+	});
+
+	recordsBtn.addEventListener('click', () => {
+		closeShowSettings();
+		updateRecords();
+		toggleShowRecords();
+	});
+
+	function closeShowRecords() {
+		if (records.classList.contains('records__show')) {
+			records.classList.remove('records__show');
+		}
+	}
+
+	function toggleShowRecords() {
+		if (records.classList.contains('records__show')) {
+			records.classList.remove('records__show');
+		} else {
+			records.classList.add('records__show');
+		}
+	}
+
+	function updateRecords(){
+		resordsBest.textContent = state.scoreBest;
+		resordsLast.innerHTML = "";
+
+		let number = 1;
+		for(let i = state.scoreLast.length - 1; i >= 0; i--) {
+			const el = document.createElement('p');
+			el.textContent = `${number}. ${state.scoreLast[i]}`;
+			number++;
+			resordsLast.appendChild(el);
+		}
+
+	}
+
+	settingsBtn.addEventListener('click', () => {
+		closeShowRecords();
 		toggleShowSettings();
 	});
 
-	settingsBtn.addEventListener('click', toggleShowSettings);
+	function closeShowSettings() {
+		if (settings.classList.contains('settings__show')) {
+			settings.classList.remove('settings__show');
+		}
+	}
 
 	function toggleShowSettings() {
 		if (settings.classList.contains('settings__show')) {
@@ -412,7 +496,6 @@ function init() {
 	);
 
 	musicBtn.addEventListener('change', (e) => {
-		console.log(e.target.checked);
 		if(e.target.checked) {
 			audio.play();
 		} else {
@@ -441,6 +524,7 @@ function init() {
 			default:
 				break;
 		}
+		// console.log(state.scoreBest)
 
 		scoreRes.textContent = `${state.score}`;
 		if (state.scoreBest < state.score) {
@@ -473,6 +557,6 @@ function init() {
 	// Footer
 }
 
-init();
+// init();
 
 // console.log(state)
