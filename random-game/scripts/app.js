@@ -1,5 +1,6 @@
 import createFooter from './footer.js';
 import animate from './animate.js';
+import log from './self-assessment.js';
 
 const body = document.querySelector('body');
 const gameField = document.querySelector('.game__field');
@@ -508,3 +509,5 @@ function init() {
 	body.appendChild(footer);
 	// Footer
 }
+
+log();
