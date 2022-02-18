@@ -8,9 +8,11 @@ body {
 	position: relative;
 	width: 100vw;
 	height: 100vh;
-	padding-top: 120px;
+	padding-left: 130px;
+	padding-bottom: 45px;
 	display: flex;
 	flex-direction: column;
+	justify-content: center;
 	align-items: center;
 	background-color: #dee5ea;
 	font-family: 'Poppins', sans-serif;
@@ -19,19 +21,18 @@ body {
 .header {
 	position: fixed;
 	top: 0;
-	left: calc(50% - 325px);
+	left: 0;
 }
 .controls {
-	width: 650px;
-	height: 100px;
+	width: 130px;
+	height: 100vh;
 	display: flex;
-	justify-content: space-between;
+	flex-direction: column;
+	justify-content: center;
 	align-items: center;
 	margin-bottom: 20px;
-	padding: 20px 40px;
+	padding: 10px 40px;
 	background-color: #121829;
-	border-bottom-left-radius: 6px;
-	border-bottom-right-radius: 6px;
 }
 .score__block {
 	width: 100px;
@@ -42,6 +43,7 @@ body {
 	align-items: center;
 	background-color: #ebeef5;
 	border-radius: 8px;
+	margin-bottom: 30px;
 }
 
 .button {
@@ -57,6 +59,7 @@ body {
 .button__start {
 	width: 100px;
 	height: 40px;
+	margin-bottom: 30px;
 	-webkit-box-shadow: 0px 0px 4px 2px #ebeef5;
 	-moz-box-shadow: 0px 0px 4px 2px #ebeef5;
 	box-shadow: 0px 0px 4px 2px #ebeef5;
@@ -104,6 +107,7 @@ body {
 	width: 48px;
 	height: 28px;
 	background-color: transparent;
+	margin-bottom: 30px;
 }
 
 .button__records:before {
@@ -131,10 +135,10 @@ body {
 .records {
 	position: absolute;
 	z-index: 9999;
-	width: 600px;
-	height: 600px;
-	top: 120px;
-	left: calc(50% - 300px);
+	width: 550px;
+	height: 550px;
+	top: calc(50vh - 300px);
+	right: calc(-100vw - 420px);
 	padding: 20px;
 	font-family: 'Poppins', sans-serif;
 	font-weight: 400;
@@ -145,6 +149,7 @@ body {
 	transition: 0.5s;
 }
 .records__show {
+	right: calc(-50vw - 210px);
 	opacity: 1;
 	transition: 0.5s;
 }
@@ -178,10 +183,10 @@ body {
 .settings {
 	position: absolute;
 	z-index: 9999;
-	width: 600px;
-	height: 600px;
-	top: 120px;
-	left: calc(50% - 300px);
+	width: 550px;
+	height: 550px;
+	top: calc(50vh - 300px);
+	right: calc(-100vw - 420px);
 	padding: 20px;
 	display: flex;
 	flex-direction: column;
@@ -199,6 +204,7 @@ body {
 	margin-bottom: 20px;
 }
 .settings__show {
+	right: calc(-50vw - 210px);
 	opacity: 1;
 	transition: 0.5s;
 }
@@ -265,6 +271,9 @@ body {
 	margin-bottom: 30px;
 }
 .settings__autor {
+	line-height: 36px;
+}
+.settings__discord {
 	line-height: 36px;
 }
 .settings__version {
@@ -353,18 +362,19 @@ body {
 .footer {
 	width: 100vw;
 	position: fixed;
+	left: 0;
 	bottom: 0;
 	background-color: #121829;
 	color: #a8aebf;
 }
 .container {
-	max-width: 1200px;
+	max-width: 1000px;
 	margin: 0 auto;
 }
 .footer__body {
 	display: flex;
 	justify-content: space-between;
-	padding: 15px;
+	padding: 15px 15px 15px 15px;
 }
 .copyright-link {
 	margin-left: 20px;
