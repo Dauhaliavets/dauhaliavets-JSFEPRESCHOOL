@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap"
+			rel="stylesheet"
+		/>
+		<link rel="stylesheet" href="css/index.css" />
+		<title>2048</title>
+		<link rel="icon" type="image/x-icon" href="./assets/favicon/favicon.ico" />
+	</head>
+	<body>
+		<header class="header">
+			<div class="container">
+				<div class="controls">
+					<div class="button button__start">New Game</div>
+					<div class="score__block">
+						<span class="score__title">Score:</span>
+						<span class="score__result score">0</span>
+					</div>
+					<div class="score__block">
+						<span class="score__title">Best score:</span>
+						<span class="score__result score-best">0</span>
+					</div>
+					<div class="button button__records"></div>
+					<div class="records">
+						<h2 class="records__title">Records</h2>
+						<h3 class="records__subtitle">Best score:</h3>
+						<div class="records__score-best"></div>
+						<h3 class="records__subtitle">Last 10 score:</h3>
+						<div class="records__score-last"></div>
+					</div>
+					<div class="button button__settings"></div>
+					<div class="settings settings__show">
+						<h2 class="settings__title">Settings</h2>
+						<div class="settings__size">
+							<span class="settings__size-title">Size matrix:</span>
+							<span class="size" data-size="2">2x2</span>
+							<span class="size" data-size="3">3x3</span>
+							<span class="size" data-size="4">4x4</span>
+							<span class="size" data-size="5">5x5</span>
+						</div>
+						<label class="settings__music-label" for="music">
+							Music:
+							<input
+								class="settings__music-input"
+								type="checkbox"
+								name="music"
+								id="music"
+							/>
+							<span class="settings__music-checkmark"></span>
+						</label>
+						<p class="settings__rules">
+							<span>HOW TO PLAY:</span>
+							Use your arrow keys to move the tiles. When two tiles with the
+							same number touch, they merge into one!
+						</p>
+						<p class="settings__autor">
+							<span>Autor:</span>
+							Dzmitry Dauhaliavets
+						</p>
+						<p class="settings__discord">
+							<span>Discord:</span>
+							@Dauhaliavets
+						</p>
+						<p class="settings__version">
+							<span>Version:</span>
+							v1.0.0
+						</p>
+					</div>
+				</div>
+			</div>
+		</header>
+		<main class="game__field"></main>
+
+		<script type="module" src="./scripts/app.js"></script>
+	</body>
+</html>
