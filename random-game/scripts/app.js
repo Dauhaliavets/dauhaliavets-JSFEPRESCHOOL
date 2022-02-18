@@ -24,11 +24,6 @@ const state = {
 	win: false,
 };
 
-const audio = new Audio('./assets/mp3/track.mp3');
-audio.loop = true;
-audio.volume = 0.2;
-body.appendChild(audio);
-
 window.addEventListener('load', () => {
 	state.fieldSize = JSON.parse(localStorage.getItem('fieldSize')) ?? 4;
 	state.scoreLast = JSON.parse(localStorage.getItem('scoreLast')) ?? [];
@@ -59,16 +54,12 @@ function createHTMLElement(
 	return el;
 }
 
-function setCell(x, y, value) {
-	return { x: x, y: y, value: value };
-}
-
 function createField(size) {
 	const fieldMatrix = [];
 
 	for (let i = 0; i < size; i++) {
 		for (let j = 0; j < size; j++) {
-			let cell = setCell(i, j, 0);
+			let cell = { x: i, y: j, value: 0 };
 			fieldMatrix.push(cell);
 		}
 	}
@@ -120,25 +111,14 @@ function getRandomIndex() {
 }
 
 function setRandomValueToMatrix() {
-	const isEmpryCells = getIsEmptyCellsToMatrix();
+	let ind = getRandomIndex();
+	let value = getRandomValue();
 
-	if (isEmpryCells) {
-		let ind = getRandomIndex();
-		let value = getRandomValue();
-
-		if (state.fieldMatrix[ind].value === 0) {
-			state.fieldMatrix[ind].value = value;
-			return state.fieldMatrix[ind];
-		} else {
-			return setRandomValueToMatrix(state.fieldMatrix);
-		}
+	if (state.fieldMatrix[ind].value === 0) {
+		state.fieldMatrix[ind].value = value;
+		return state.fieldMatrix[ind];
 	} else {
-		let isMerge = getIsMerge();
-		if (!isMerge) {
-			console.log('GAME OVER after set random value');
-		} else {
-			alert('Еще не все пропало:) Можно соединить ячейки!');
-		}
+		return setRandomValueToMatrix(state.fieldMatrix);
 	}
 }
 
@@ -404,29 +384,78 @@ function createGameField() {
 	gameField.appendChild(fieldBlock);
 }
 
+function checkGameOverAfterMove() {
+	let newCell;
+
+	if (state.win) {
+		showResult(fieldBlock, `You winner! Your score: ${state.score}`);
+		updateLastScoreForRecords();
+		body.onkeydown = null;
+	} else {
+		let isEmpryCells = getIsEmptyCellsToMatrix();
+		let isMerge;
+
+		if (isEmpryCells) {
+			newCell = setRandomValueToMatrix();
+			renderField(fieldBlock, newCell);
+
+			isEmpryCells = getIsEmptyCellsToMatrix();
+			isMerge = getIsMerge();
+			if (!isEmpryCells && !isMerge) {
+				showResult(fieldBlock, `You loser! Your score: ${state.score}`);
+				updateLastScoreForRecords();
+				body.onkeydown = null;
+			}
+		}
+	}
+}
+
+function handlerOnKeyDown(e) {
+	switch (e.code) {
+		case 'ArrowUp':
+			moveUpOrDown('up');
+			break;
+		case 'ArrowDown':
+			moveUpOrDown('down');
+			break;
+		case 'ArrowRight':
+			moveLeftOrRight('right');
+			break;
+		case 'ArrowLeft':
+			moveLeftOrRight('left');
+			break;
+		default:
+			break;
+	}
+
+	renderField(fieldBlock);
+	setScoreAfterMove();
+	checkGameOverAfterMove();
+}
+
+function updateLastScoreForRecords(){
+	if (state.scoreLast.length > 9) {
+		state.scoreLast.shift();
+	}
+	state.scoreLast.push(state.score);
+}
+
 function init() {
-	
+	const audio = new Audio('./assets/mp3/track.mp3');
+	audio.loop = true;
+	audio.volume = 0.2;
+	body.appendChild(audio);
 
 	scoreBestRes.textContent = state.scoreBest;
 	resordsBest.textContent = state.scoreBest;
 
-	sizeBtns.forEach((btn) => {
-		if (btn.dataset.size == state.fieldSize) {
-			btn.classList.add('active');
-		}
-	});
+	createGameField();
 
-
-	// createGameField();
-
-	startBtn.addEventListener('click', () => {
-		if (state.scoreLast.length > 9) {
-			state.scoreLast.shift();
-		}
-		state.scoreLast.push(state.score);
-
+	startBtn.addEventListener('click', () => {		
 		state.score = 0;
 		scoreRes.textContent = `${state.score}`;
+
+		body.onkeydown = (e) => handlerOnKeyDown(e);
 
 		closePopupItem(settings, 'settings');
 		closePopupItem(records, 'records');
@@ -446,7 +475,11 @@ function init() {
 		toggleShowPopupItem(settings, 'settings');
 	});
 
-	sizeBtns.forEach((btn) =>
+	sizeBtns.forEach((btn) => {
+		if (btn.dataset.size == state.fieldSize) {
+			btn.classList.add('active');
+		}
+
 		btn.addEventListener('click', (e) => {
 			const sizeTarget = e.target.dataset.size;
 
@@ -459,8 +492,8 @@ function init() {
 					btn.classList.remove('active');
 				}
 			});
-		})
-	);
+		});
+	});
 
 	musicBtn.addEventListener('change', (e) => {
 		if (e.target.checked) {
@@ -469,47 +502,6 @@ function init() {
 			audio.pause();
 		}
 	});
-
-	body.onkeydown = function (e) {
-		let newCell;
-
-		switch (e.code) {
-			case 'ArrowUp':
-				moveUpOrDown('up');
-				break;
-			case 'ArrowDown':
-				moveUpOrDown('down');
-				break;
-			case 'ArrowRight':
-				moveLeftOrRight('right');
-				break;
-			case 'ArrowLeft':
-				moveLeftOrRight('left');
-				break;
-			default:
-				break;
-		}
-
-		setScoreAfterMove();
-
-
-
-		if (state.win) {
-			showResult(fieldBlock, `You winner! Your score: ${state.score}`);
-		} else {
-			let isEmpryCells = getIsEmptyCellsToMatrix();
-			let isMerge = getIsMerge();
-
-			if (isEmpryCells) {
-				newCell = setRandomValueToMatrix();
-				renderField(fieldBlock, newCell);
-			} else if (isMerge) {
-				renderField(fieldBlock);
-			} else {
-				showResult(fieldBlock, `You loser! Your score: ${state.score}`);
-			}
-		}
-	};
 
 	// Footer
 	const footer = createFooter();
