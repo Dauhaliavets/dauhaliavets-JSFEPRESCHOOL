@@ -1,4 +1,5 @@
 import createFooter from './footer.js';
+import animate from './animate.js';
 
 const body = document.querySelector('body');
 const gameField = document.querySelector('.game__field');
@@ -32,9 +33,6 @@ window.addEventListener('load', () => {
 	state.fieldSize = JSON.parse(localStorage.getItem('fieldSize')) ?? 4;
 	state.scoreLast = JSON.parse(localStorage.getItem('scoreLast')) ?? [];
 	state.scoreBest = JSON.parse(localStorage.getItem('scoreBest')) ?? 0;
-
-	console.log(state);
-
 
 	init();
 });
@@ -99,7 +97,7 @@ function renderField(fieldElement, newItem) {
 			value === newItem.value
 		) {
 			animate({
-				duration: 200,
+				duration: 150,
 				timing(timeFraction) {
 					return timeFraction;
 				},
@@ -347,26 +345,6 @@ function moveUpOrDown(toDirection) {
 	// Изменяем матрицу в state
 	state.fieldMatrix = newFieldMatrix;
 }
-// =============================== Animation ========================================================
-function animate({ timing, draw, duration }) {
-	let start = performance.now();
-
-	requestAnimationFrame(function animate(time) {
-		// timeFraction изменяется от 0 до 1
-		let timeFraction = (time - start) / duration;
-		if (timeFraction > 1) timeFraction = 1;
-
-		// вычисление текущего состояния анимации
-		let progress = timing(timeFraction);
-
-		draw(progress); // отрисовать её
-
-		if (timeFraction < 1) {
-			requestAnimationFrame(animate);
-		}
-	});
-}
-// ================================= Animation =====================================================
 
 function showResult(parentElement, content) {
 	const result = createHTMLElement('div', 'result', '', '', content);
@@ -376,108 +354,97 @@ function showResult(parentElement, content) {
 	}
 }
 
+function closePopupItem(item, itemClassName) {
+	if (item.classList.contains(`${itemClassName}__show`)) {
+		item.classList.remove(`${itemClassName}__show`);
+	}
+}
+
+function toggleShowPopupItem(item, itemClassName) {
+	if (item.classList.contains(`${itemClassName}__show`)) {
+		item.classList.remove(`${itemClassName}__show`);
+	} else {
+		item.classList.add(`${itemClassName}__show`);
+	}
+}
+
+function updateRecords() {
+	resordsBest.textContent = state.scoreBest;
+	resordsLast.innerHTML = '';
+
+	let number = 1;
+	for (let i = state.scoreLast.length - 1; i >= 0; i--) {
+		const el = document.createElement('p');
+		el.textContent = `${number}. ${state.scoreLast[i]}`;
+		number++;
+		resordsLast.appendChild(el);
+	}
+}
+
+function setScoreAfterMove() {
+	scoreRes.textContent = `${state.score}`;
+	if (state.scoreBest < state.score) {
+		state.scoreBest = state.score;
+		scoreBestRes.textContent = state.scoreBest;
+	}
+}
+
+let fieldBlock;
+function createGameField() {
+	gameField.innerHTML = '';
+
+	fieldBlock = createHTMLElement(
+		'div',
+		'field',
+		state.fieldSize * 110,
+		state.fieldSize * 110,
+		''
+	);
+
+	gameField.appendChild(fieldBlock);
+}
+
 function init() {
-	let fieldBlock;
-	// console.log(state);
+	
 
 	scoreBestRes.textContent = state.scoreBest;
 	resordsBest.textContent = state.scoreBest;
-	sizeBtns.forEach(btn => {
-		if(btn.dataset.size == state.fieldSize) {
+
+	sizeBtns.forEach((btn) => {
+		if (btn.dataset.size == state.fieldSize) {
 			btn.classList.add('active');
 		}
 	});
 
 
-
-	function createGameField() {
-		gameField.innerHTML = '';
-
-		fieldBlock = createHTMLElement(
-			'div',
-			'field',
-			state.fieldSize * 110,
-			state.fieldSize * 110,
-			''
-		);
-
-		gameField.appendChild(fieldBlock);
-	}
-
-	createGameField();
+	// createGameField();
 
 	startBtn.addEventListener('click', () => {
-
-		if(state.scoreLast.length > 9) {
+		if (state.scoreLast.length > 9) {
 			state.scoreLast.shift();
 		}
 		state.scoreLast.push(state.score);
-		
-		// console.log(state.scoreLast)
 
 		state.score = 0;
 		scoreRes.textContent = `${state.score}`;
 
-		closeShowSettings();
-		closeShowRecords();
+		closePopupItem(settings, 'settings');
+		closePopupItem(records, 'records');
 		createGameField();
 		createField(state.fieldSize);
 		renderField(fieldBlock);
-		
 	});
 
 	recordsBtn.addEventListener('click', () => {
-		closeShowSettings();
+		closePopupItem(settings, 'settings');
 		updateRecords();
-		toggleShowRecords();
+		toggleShowPopupItem(records, 'records');
 	});
-
-	function closeShowRecords() {
-		if (records.classList.contains('records__show')) {
-			records.classList.remove('records__show');
-		}
-	}
-
-	function toggleShowRecords() {
-		if (records.classList.contains('records__show')) {
-			records.classList.remove('records__show');
-		} else {
-			records.classList.add('records__show');
-		}
-	}
-
-	function updateRecords(){
-		resordsBest.textContent = state.scoreBest;
-		resordsLast.innerHTML = "";
-
-		let number = 1;
-		for(let i = state.scoreLast.length - 1; i >= 0; i--) {
-			const el = document.createElement('p');
-			el.textContent = `${number}. ${state.scoreLast[i]}`;
-			number++;
-			resordsLast.appendChild(el);
-		}
-
-	}
 
 	settingsBtn.addEventListener('click', () => {
-		closeShowRecords();
-		toggleShowSettings();
+		closePopupItem(records, 'records');
+		toggleShowPopupItem(settings, 'settings');
 	});
-
-	function closeShowSettings() {
-		if (settings.classList.contains('settings__show')) {
-			settings.classList.remove('settings__show');
-		}
-	}
-
-	function toggleShowSettings() {
-		if (settings.classList.contains('settings__show')) {
-			settings.classList.remove('settings__show');
-		} else {
-			settings.classList.add('settings__show');
-		}
-	}
 
 	sizeBtns.forEach((btn) =>
 		btn.addEventListener('click', (e) => {
@@ -496,14 +463,12 @@ function init() {
 	);
 
 	musicBtn.addEventListener('change', (e) => {
-		if(e.target.checked) {
+		if (e.target.checked) {
 			audio.play();
 		} else {
 			audio.pause();
 		}
 	});
-
-
 
 	body.onkeydown = function (e) {
 		let newCell;
@@ -524,16 +489,12 @@ function init() {
 			default:
 				break;
 		}
-		// console.log(state.scoreBest)
 
-		scoreRes.textContent = `${state.score}`;
-		if (state.scoreBest < state.score) {
-			state.scoreBest = state.score;
-			scoreBestRes.textContent = state.scoreBest;
-		}
+		setScoreAfterMove();
+
+
 
 		if (state.win) {
-			// console.log('winner');
 			showResult(fieldBlock, `You winner! Your score: ${state.score}`);
 		} else {
 			let isEmpryCells = getIsEmptyCellsToMatrix();
@@ -545,7 +506,6 @@ function init() {
 			} else if (isMerge) {
 				renderField(fieldBlock);
 			} else {
-				// console.log('Loser');
 				showResult(fieldBlock, `You loser! Your score: ${state.score}`);
 			}
 		}
@@ -556,7 +516,3 @@ function init() {
 	body.appendChild(footer);
 	// Footer
 }
-
-// init();
-
-// console.log(state)
