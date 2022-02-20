@@ -11,6 +11,8 @@ const recordsBtn = document.querySelector('.button__records');
 const records = document.querySelector('.records');
 const resordsBest = document.querySelector('.records__score-best');
 const resordsLast = document.querySelector('.records__score-last');
+const recordsClearResults = document.querySelector('.button__clear_results');
+const recordsClearAll = document.querySelector('.button__clear_all');
 const settingsBtn = document.querySelector('.button__settings');
 const settings = document.querySelector('.settings');
 const sizeBtns = document.querySelectorAll('.size');
@@ -23,6 +25,11 @@ const state = {
 	scoreLast: [],
 	scoreBest: 0,
 	win: false,
+	isGameOver: false,
+	coordX1: 0,
+	coordX2: 0,
+	coordY1: 0,
+	coordY2: 0,
 };
 
 window.addEventListener('load', () => {
@@ -327,6 +334,19 @@ function moveUpOrDown(toDirection) {
 	state.fieldMatrix = newFieldMatrix;
 }
 
+function move(toDirection) {
+	if(state.isGameOver) return;
+
+	if(toDirection === 'left' || toDirection === 'right') {
+		moveLeftOrRight(toDirection);
+	} else if (toDirection === 'up' || toDirection === 'down') {
+		moveUpOrDown(toDirection);
+	}
+	renderField(fieldBlock);
+	setScoreAfterMove();
+	checkGameOverAfterMove();
+}
+
 function showResult(parentElement, content) {
 	const result = createHTMLElement('div', 'result', '', '', content);
 
@@ -391,7 +411,8 @@ function checkGameOverAfterMove() {
 	if (state.win) {
 		showResult(fieldBlock, `You winner! Your score: ${state.score}`);
 		updateLastScoreForRecords();
-		body.onkeydown = null;
+		body.removeEventListener('keydown', handlerOnKeyDown);
+		state.isGameOver = true;
 	} else {
 		let isEmpryCells = getIsEmptyCellsToMatrix();
 		let isMerge;
@@ -405,7 +426,8 @@ function checkGameOverAfterMove() {
 			if (!isEmpryCells && !isMerge) {
 				showResult(fieldBlock, `You loser! Your score: ${state.score}`);
 				updateLastScoreForRecords();
-				body.onkeydown = null;
+				body.removeEventListener('keydown', handlerOnKeyDown);
+				state.isGameOver = true;
 			}
 		}
 	}
@@ -414,31 +436,49 @@ function checkGameOverAfterMove() {
 function handlerOnKeyDown(e) {
 	switch (e.code) {
 		case 'ArrowUp':
-			moveUpOrDown('up');
+			move('up');
 			break;
 		case 'ArrowDown':
-			moveUpOrDown('down');
+			move('down');
 			break;
 		case 'ArrowRight':
-			moveLeftOrRight('right');
+			move('right');
 			break;
 		case 'ArrowLeft':
-			moveLeftOrRight('left');
+			move('left');
 			break;
 		default:
 			break;
 	}
-
-	renderField(fieldBlock);
-	setScoreAfterMove();
-	checkGameOverAfterMove();
 }
 
-function updateLastScoreForRecords(){
+function updateLastScoreForRecords() {
 	if (state.scoreLast.length > 9) {
 		state.scoreLast.shift();
 	}
 	state.scoreLast.push(state.score);
+}
+
+function findDirection(x1, y1, x2, y2) {
+	// was a click, without moving
+	if (Math.abs(x1 - x2) === Math.abs(y1 - y2)) {
+		return;
+	}
+	if (Math.abs(x1 - x2) > Math.abs(y1 - y2)) {
+		// horizont
+		if (x1 > x2) {
+			move('left');
+		} else {
+			move('right');
+		}
+	} else {
+		// vertic
+		if (y1 > y2) {
+			move('up');
+		} else {
+			move('down');
+		}
+	}
 }
 
 function init() {
@@ -452,11 +492,22 @@ function init() {
 
 	createGameField();
 
-	startBtn.addEventListener('click', () => {		
+	startBtn.addEventListener('click', () => {
 		state.score = 0;
 		scoreRes.textContent = `${state.score}`;
+		state.isGameOver = false;
 
-		body.onkeydown = (e) => handlerOnKeyDown(e);
+		body.addEventListener('keydown', (e) => handlerOnKeyDown(e));
+		body.addEventListener('mousedown', (e) => {
+			state.coordX1 = e.clientX;
+			state.coordY1 = e.clientY;
+		});
+		body.addEventListener('mouseup', (e) => {
+			state.coordX2 = e.clientX;
+			state.coordY2 = e.clientY;
+		
+			findDirection(state.coordX1, state.coordY1, state.coordX2, state.coordY2);
+		});
 
 		closePopupItem(settings, 'settings');
 		closePopupItem(records, 'records');
@@ -469,6 +520,19 @@ function init() {
 		closePopupItem(settings, 'settings');
 		updateRecords();
 		toggleShowPopupItem(records, 'records');
+	});
+
+	recordsClearResults.addEventListener('click', () => {
+		state.scoreLast = [];
+		scoreRes.textContent = 0;
+		updateRecords();
+	});
+	recordsClearAll.addEventListener('click', () => {
+		state.scoreLast = [];
+		state.scoreBest = 0;
+		scoreRes.textContent = 0;
+		scoreBestRes.textContent = state.scoreBest;
+		updateRecords();
 	});
 
 	settingsBtn.addEventListener('click', () => {
