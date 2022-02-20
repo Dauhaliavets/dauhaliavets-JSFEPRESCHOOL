@@ -302,10 +302,12 @@ body {
 	border-bottom: 2px solid black;
 	transform: rotate(-45deg);
 }
-
+.settings__goal {
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
 .settings__rules {
-	margin-top: 30px;
-	margin-bottom: 30px;
+	margin-bottom: 20px;
 }
 .settings__autor {
 	line-height: 36px;

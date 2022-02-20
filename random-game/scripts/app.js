@@ -417,26 +417,34 @@ function handlerOnKeyDown(e) {
 	switch (e.code) {
 		case 'ArrowUp':
 			moveUpOrDown('up');
+			renderField(fieldBlock);
+			setScoreAfterMove();
+			checkGameOverAfterMove();
 			break;
 		case 'ArrowDown':
 			moveUpOrDown('down');
+			renderField(fieldBlock);
+			setScoreAfterMove();
+			checkGameOverAfterMove();
 			break;
 		case 'ArrowRight':
 			moveLeftOrRight('right');
+			renderField(fieldBlock);
+			setScoreAfterMove();
+			checkGameOverAfterMove();
 			break;
 		case 'ArrowLeft':
 			moveLeftOrRight('left');
+			renderField(fieldBlock);
+			setScoreAfterMove();
+			checkGameOverAfterMove();
 			break;
 		default:
 			break;
 	}
-
-	renderField(fieldBlock);
-	setScoreAfterMove();
-	checkGameOverAfterMove();
 }
 
-function updateLastScoreForRecords(){
+function updateLastScoreForRecords() {
 	if (state.scoreLast.length > 9) {
 		state.scoreLast.shift();
 	}
@@ -454,7 +462,7 @@ function init() {
 
 	createGameField();
 
-	startBtn.addEventListener('click', () => {		
+	startBtn.addEventListener('click', () => {
 		state.score = 0;
 		scoreRes.textContent = `${state.score}`;
 
@@ -484,7 +492,7 @@ function init() {
 		scoreRes.textContent = 0;
 		scoreBestRes.textContent = state.scoreBest;
 		updateRecords();
-	})
+	});
 
 	settingsBtn.addEventListener('click', () => {
 		closePopupItem(records, 'records');
