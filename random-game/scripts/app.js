@@ -11,6 +11,8 @@ const recordsBtn = document.querySelector('.button__records');
 const records = document.querySelector('.records');
 const resordsBest = document.querySelector('.records__score-best');
 const resordsLast = document.querySelector('.records__score-last');
+const recordsClearResults = document.querySelector('.button__clear_results');
+const recordsClearAll = document.querySelector('.button__clear_all');
 const settingsBtn = document.querySelector('.button__settings');
 const settings = document.querySelector('.settings');
 const sizeBtns = document.querySelectorAll('.size');
@@ -470,6 +472,19 @@ function init() {
 		updateRecords();
 		toggleShowPopupItem(records, 'records');
 	});
+
+	recordsClearResults.addEventListener('click', () => {
+		state.scoreLast = [];
+		scoreRes.textContent = 0;
+		updateRecords();
+	});
+	recordsClearAll.addEventListener('click', () => {
+		state.scoreLast = [];
+		state.scoreBest = 0;
+		scoreRes.textContent = 0;
+		scoreBestRes.textContent = state.scoreBest;
+		updateRecords();
+	})
 
 	settingsBtn.addEventListener('click', () => {
 		closePopupItem(records, 'records');
