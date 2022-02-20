@@ -25,6 +25,11 @@ const state = {
 	scoreLast: [],
 	scoreBest: 0,
 	win: false,
+	isGameOver: false,
+	coordX1: 0,
+	coordX2: 0,
+	coordY1: 0,
+	coordY2: 0,
 };
 
 window.addEventListener('load', () => {
@@ -329,6 +334,19 @@ function moveUpOrDown(toDirection) {
 	state.fieldMatrix = newFieldMatrix;
 }
 
+function move(toDirection) {
+	if(state.isGameOver) return;
+
+	if(toDirection === 'left' || toDirection === 'right') {
+		moveLeftOrRight(toDirection);
+	} else if (toDirection === 'up' || toDirection === 'down') {
+		moveUpOrDown(toDirection);
+	}
+	renderField(fieldBlock);
+	setScoreAfterMove();
+	checkGameOverAfterMove();
+}
+
 function showResult(parentElement, content) {
 	const result = createHTMLElement('div', 'result', '', '', content);
 
@@ -393,7 +411,8 @@ function checkGameOverAfterMove() {
 	if (state.win) {
 		showResult(fieldBlock, `You winner! Your score: ${state.score}`);
 		updateLastScoreForRecords();
-		body.onkeydown = null;
+		body.removeEventListener('keydown', handlerOnKeyDown);
+		state.isGameOver = true;
 	} else {
 		let isEmpryCells = getIsEmptyCellsToMatrix();
 		let isMerge;
@@ -407,7 +426,8 @@ function checkGameOverAfterMove() {
 			if (!isEmpryCells && !isMerge) {
 				showResult(fieldBlock, `You loser! Your score: ${state.score}`);
 				updateLastScoreForRecords();
-				body.onkeydown = null;
+				body.removeEventListener('keydown', handlerOnKeyDown);
+				state.isGameOver = true;
 			}
 		}
 	}
@@ -416,28 +436,16 @@ function checkGameOverAfterMove() {
 function handlerOnKeyDown(e) {
 	switch (e.code) {
 		case 'ArrowUp':
-			moveUpOrDown('up');
-			renderField(fieldBlock);
-			setScoreAfterMove();
-			checkGameOverAfterMove();
+			move('up');
 			break;
 		case 'ArrowDown':
-			moveUpOrDown('down');
-			renderField(fieldBlock);
-			setScoreAfterMove();
-			checkGameOverAfterMove();
+			move('down');
 			break;
 		case 'ArrowRight':
-			moveLeftOrRight('right');
-			renderField(fieldBlock);
-			setScoreAfterMove();
-			checkGameOverAfterMove();
+			move('right');
 			break;
 		case 'ArrowLeft':
-			moveLeftOrRight('left');
-			renderField(fieldBlock);
-			setScoreAfterMove();
-			checkGameOverAfterMove();
+			move('left');
 			break;
 		default:
 			break;
@@ -449,6 +457,28 @@ function updateLastScoreForRecords() {
 		state.scoreLast.shift();
 	}
 	state.scoreLast.push(state.score);
+}
+
+function findDirection(x1, y1, x2, y2) {
+	// was a click, without moving
+	if (Math.abs(x1 - x2) === Math.abs(y1 - y2)) {
+		return;
+	}
+	if (Math.abs(x1 - x2) > Math.abs(y1 - y2)) {
+		// horizont
+		if (x1 > x2) {
+			move('left');
+		} else {
+			move('right');
+		}
+	} else {
+		// vertic
+		if (y1 > y2) {
+			move('up');
+		} else {
+			move('down');
+		}
+	}
 }
 
 function init() {
@@ -465,8 +495,19 @@ function init() {
 	startBtn.addEventListener('click', () => {
 		state.score = 0;
 		scoreRes.textContent = `${state.score}`;
+		state.isGameOver = false;
 
-		body.onkeydown = (e) => handlerOnKeyDown(e);
+		body.addEventListener('keydown', (e) => handlerOnKeyDown(e));
+		body.addEventListener('mousedown', (e) => {
+			state.coordX1 = e.clientX;
+			state.coordY1 = e.clientY;
+		});
+		body.addEventListener('mouseup', (e) => {
+			state.coordX2 = e.clientX;
+			state.coordY2 = e.clientY;
+		
+			findDirection(state.coordX1, state.coordY1, state.coordX2, state.coordY2);
+		});
 
 		closePopupItem(settings, 'settings');
 		closePopupItem(records, 'records');
