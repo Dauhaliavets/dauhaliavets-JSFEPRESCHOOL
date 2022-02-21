@@ -412,6 +412,8 @@ function checkGameOverAfterMove() {
 		showResult(fieldBlock, `You winner! Your score: ${state.score}`);
 		updateLastScoreForRecords();
 		body.removeEventListener('keydown', handlerOnKeyDown);
+		body.removeEventListener('mousedown', handlerMouseDown);
+		body.removeEventListener('mouseup', handlerMouseUp);
 		state.isGameOver = true;
 	} else {
 		let isEmpryCells = getIsEmptyCellsToMatrix();
@@ -427,6 +429,8 @@ function checkGameOverAfterMove() {
 				showResult(fieldBlock, `You loser! Your score: ${state.score}`);
 				updateLastScoreForRecords();
 				body.removeEventListener('keydown', handlerOnKeyDown);
+				body.removeEventListener('mousedown', handlerMouseDown);
+				body.removeEventListener('mouseup', handlerMouseUp);
 				state.isGameOver = true;
 			}
 		}
@@ -452,11 +456,16 @@ function handlerOnKeyDown(e) {
 	}
 }
 
-function updateLastScoreForRecords() {
-	if (state.scoreLast.length > 9) {
-		state.scoreLast.shift();
-	}
-	state.scoreLast.push(state.score);
+function handlerMouseDown(e) {
+	state.coordX1 = e.clientX;
+	state.coordY1 = e.clientY;
+}
+
+function handlerMouseUp(e) {
+	state.coordX2 = e.clientX;
+	state.coordY2 = e.clientY;
+
+	findDirection(state.coordX1, state.coordY1, state.coordX2, state.coordY2);
 }
 
 function findDirection(x1, y1, x2, y2) {
@@ -481,6 +490,13 @@ function findDirection(x1, y1, x2, y2) {
 	}
 }
 
+function updateLastScoreForRecords() {
+	if (state.scoreLast.length > 9) {
+		state.scoreLast.shift();
+	}
+	state.scoreLast.push(state.score);
+}
+
 function init() {
 	const audio = new Audio('./assets/mp3/track.mp3');
 	audio.loop = true;
@@ -497,23 +513,16 @@ function init() {
 		scoreRes.textContent = `${state.score}`;
 		state.isGameOver = false;
 
-		body.addEventListener('keydown', (e) => handlerOnKeyDown(e));
-		body.addEventListener('mousedown', (e) => {
-			state.coordX1 = e.clientX;
-			state.coordY1 = e.clientY;
-		});
-		body.addEventListener('mouseup', (e) => {
-			state.coordX2 = e.clientX;
-			state.coordY2 = e.clientY;
-		
-			findDirection(state.coordX1, state.coordY1, state.coordX2, state.coordY2);
-		});
-
 		closePopupItem(settings, 'settings');
 		closePopupItem(records, 'records');
 		createGameField();
 		createField(state.fieldSize);
 		renderField(fieldBlock);
+
+		body.addEventListener('keydown', handlerOnKeyDown);
+		body.addEventListener('mousedown', handlerMouseDown);
+		body.addEventListener('mouseup', handlerMouseUp);
+
 	});
 
 	recordsBtn.addEventListener('click', () => {
@@ -552,7 +561,9 @@ function init() {
 				if (btn.dataset.size === sizeTarget) {
 					btn.classList.add('active');
 					state.fieldSize = +sizeTarget;
+					state.score = 0;
 					createGameField();
+					createField(state.fieldSize);
 				} else {
 					btn.classList.remove('active');
 				}
